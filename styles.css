@@ -1473,3 +1473,25 @@ section.flash { animation: partFlash 1.6s ease-out; }
 .mkt-move.up { color: #34d399; } .mkt-move.down { color: #ff6b6b; }
 .mkt-row p { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.45; }
 .mkt-note { margin-top: 12px; font-size: 13px; color: var(--muted); }
+
+/* Onglets de l'Actu aux couleurs des thèmes (pour ne pas confondre économie, géopolitique et finance) */
+.segmented.themed button.seg-eco[aria-pressed="true"] { color: #ffb27a; box-shadow: inset 0 -2px 0 var(--c-eco), 0 0 0 1px var(--hairline); }
+.segmented.themed button.seg-geo[aria-pressed="true"] { color: #b3b2ff; box-shadow: inset 0 -2px 0 var(--c-geo), 0 0 0 1px var(--hairline); }
+.segmented.themed button.seg-fin[aria-pressed="true"] { color: #8ff0c4; box-shadow: inset 0 -2px 0 var(--c-fin), 0 0 0 1px var(--hairline); }
+/* « Comprendre les marchés » (onglet Finance) */
+.marches { margin: 6px 0 26px; }
+.marches-title { font-family: var(--serif); font-size: 26px; line-height: 1.15; margin: 6px 0 6px; }
+.marches-lead { color: var(--muted); font-size: 16px; line-height: 1.45; margin: 0 0 14px; }
+.marches-grid { display: grid; grid-auto-flow: column; grid-auto-columns: min(74%, 260px); gap: 10px; align-items: start; margin: 0 -16px 12px; padding: 2px 16px 8px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.marches-grid::-webkit-scrollbar { display: none; }
+.mterm { scroll-snap-align: start; scroll-margin-left: 16px; }
+.mterm { all: unset; box-sizing: border-box; cursor: pointer; display: grid; gap: 6px; padding: 14px 16px; border-radius: 16px; background: var(--surface); border-left: 3px solid var(--c-fin); color: var(--text); }
+.mterm:focus-visible { outline: 2px solid var(--c-fin); outline-offset: 2px; }
+.mterm b { font-size: 17px; }
+.mterm-def { color: var(--muted); font-size: 15px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.mterm[aria-pressed="true"] { background: rgba(52,211,153,.12); box-shadow: inset 0 0 0 1px rgba(52,211,153,.5); }
+.marches-detail { background: var(--surface); border-radius: 18px; padding: 16px 18px; margin-bottom: 12px; border-top: 3px solid var(--c-fin); }
+.marches-detail b { font-size: 19px; } .marches-detail p { margin: 8px 0 0; color: var(--text); font-size: 16px; line-height: 1.5; }
+.marches-detail .mterm-ex { color: #8ff0c4; font-size: 15px; }
+.marches-news { margin-top: 26px; }
+.mkt-note a { color: #8ff0c4; }

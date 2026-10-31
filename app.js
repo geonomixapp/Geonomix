@@ -492,7 +492,7 @@
 
   function segmented(items, current, attr) {
     return `<div class="segmented" role="group">
-      ${items.map(([k, label]) => `<button data-${attr}="${k}" aria-pressed="${current === k}">${label}</button>`).join("")}
+      ${items.map(([k, label]) => `<button class="seg-${k}" data-${attr}="${k}" aria-pressed="${current === k}">${label}</button>`).join("")}
     </div>`;
   }
 
@@ -1113,6 +1113,36 @@
   let actuTheme = "all", actuRegion = "all";
   const REGIONS = ["Europe", "Amériques", "Moyen-Orient", "Afrique", "Asie"];
 
+  // Onglet Finance de l'Actu (demande de l'auteur, 31 oct. 2026) : « Comprendre les marchés », les mots de la
+  // Bourse expliqués simplement (mots du lexique avec cat: "fin", data/content.js), en cartes qu'on ouvre d'un toucher.
+  function marchesHTML() {
+    const terms = glossary.filter((g) => g.cat === "fin");
+    if (!terms.length) return "";
+    return `
+      <div class="marches">
+        <p class="eyebrow"><span class="theme-chip fin"><i aria-hidden="true"></i>${I18N.t("Finance")}</span></p>
+        <h3 class="marches-title">${I18N.t("Comprendre les marchés.")}</h3>
+        <p class="marches-lead">${I18N.t("Action, obligation, ETF, indice… les mots de la Bourse, sans jargon. Touche un mot pour l'ouvrir.")}</p>
+        <div class="marches-grid">${terms.map((g) => `
+          <button class="mterm" type="button" data-term="${g.id}" aria-pressed="false">
+            <b>${g.term}</b>
+            <span class="mterm-def">${g.def}</span>
+          </button>`).join("")}</div>
+        <div class="marches-detail" aria-live="polite" hidden></div>
+        <a class="more-link" href="#/lexique">${I18N.t("Tout le lexique")} ›</a>
+      </div>
+      <h3 class="marches-title marches-news">${I18N.t("Les actus finance.")}</h3>`;
+  }
+  function bindMarches(box) {
+    const detail = box.querySelector(".marches-detail");
+    box.querySelectorAll(".mterm").forEach((b) => b.addEventListener("click", () => {
+      const open = b.getAttribute("aria-pressed") !== "true", g = glossary.find((x) => x.id === b.dataset.term);
+      box.querySelectorAll(".mterm").forEach((x) => x.setAttribute("aria-pressed", x === b && open));
+      detail.hidden = !open;
+      if (open && g) detail.innerHTML = `<b>${g.term}</b><p>${g.def}</p>${g.example ? `<p class="mterm-ex">${g.example}</p>` : ""}`;
+    }));
+  }
+
   function renderActuIndex() {
     app.innerHTML = `
       <section class="wrap hero">
@@ -1134,7 +1164,7 @@
       <section class="wrap actu-days">
         <h2 class="title reveal">L'actu.</h2>
         <div class="filters reveal">
-          ${segmented([["all", "Tout"], ["eco", "Économie"], ["geo", "Géopolitique"], ["fin", "Finance"]], actuTheme, "atheme")}
+          ${segmented([["all", "Tout"], ["eco", "Économie"], ["geo", "Géopolitique"], ["fin", "Finance"]], actuTheme, "atheme").replace("<div class=\"segmented\"", "<div class=\"segmented themed\"")}
           <div class="chips-row" role="group" aria-label="Filtrer par région">
             ${[["all", "Monde"], ...REGIONS.map((r) => [r, r])].map(([k, l]) => `<button class="chip-btn" data-aregion="${k}" aria-pressed="${actuRegion === k}">${l}</button>`).join("")}
           </div>
@@ -1144,12 +1174,13 @@
     `;
     function drawList() {
       const list = news.filter((n) =>
-        (actuTheme === "all" || n.theme === actuTheme || (n.theme === "mix" && actuTheme !== "fin")) &&
+        (actuTheme === "all" || n.theme === actuTheme || (n.theme === "mix" && actuTheme !== "fin") || (n.theme === "fin" && actuTheme === "eco")) &&
         (actuRegion === "all" || n.region === actuRegion));
       const sorted = nearFirst(list), STEP = 24;
       const box = app.querySelector("#actu-list");
-      if (!sorted.length) { box.innerHTML = '<p class="empty">Aucune actu pour ce filtre.</p>'; return; }
-      box.innerHTML = `<div class="mosaic">${mosaicHTML(sorted.slice(0, STEP))}</div>${sorted.length > STEP ? `<p class="mosaic-more"><button class="more-btn" type="button">${I18N.t("Voir les actus d'avant")}</button></p>` : ""}`;
+      const intro = actuTheme === "fin" ? marchesHTML() : "";
+      if (!sorted.length) { box.innerHTML = intro + `<p class="empty">${I18N.t("Aucune actu pour ce filtre.")}</p>`; bindMarches(box); return; }
+      box.innerHTML = intro + `<div class="mosaic">${mosaicHTML(sorted.slice(0, STEP))}</div>${sorted.length > STEP ? `<p class="mosaic-more"><button class="more-btn" type="button">${I18N.t("Voir les actus d'avant")}</button></p>` : ""}`;
       let shown = STEP;
       const more = box.querySelector(".mosaic-more button");
       if (more) more.onclick = () => {
@@ -1157,6 +1188,7 @@
         shown += STEP; if (shown >= sorted.length) more.parentElement.remove();
       };
       app.querySelectorAll("#actu-list .reveal").forEach((el) => el.classList.add("in"));
+      bindMarches(box);
     }
     app.querySelectorAll("[data-atheme]").forEach((b) => b.addEventListener("click", () => {
       actuTheme = b.dataset.atheme;
@@ -1610,7 +1642,7 @@
               ${x.move ? `<span class="mkt-move ${dir(x.move)}">${x.move}</span>` : ""}
               <p>${cite(x.why, src)}</p>
             </div>`).join("")}</div>
-          <p class="mkt-note reveal">${I18N.t("Pour comprendre, pas un conseil pour acheter ou vendre.")}</p>
+          <p class="mkt-note reveal">${I18N.t("Pour comprendre, pas un conseil pour acheter ou vendre.")} <a href="#/lexique">${I18N.t("Les mots de la Bourse")} ›</a></p>
         </div>
       </section>`;
   }
@@ -2663,6 +2695,7 @@ function statGrid(figures, sources, theme = "geo") {
   }
 
   // ---------- Lexique ----------
+  let lexCat = "all";
   function renderLexique(focusId) {
     const sorted = [...glossary].sort((a, b) => a.term.localeCompare(b.term, LOCALE));
     const normalize = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -2672,6 +2705,7 @@ function statGrid(figures, sources, theme = "geo") {
         <p class="eyebrow reveal">Lexique</p>
         <h1 class="title reveal">Les mots de l'actu.<br><span class="grad geo">Sans le jargon.</span></h1>
         <input class="search" type="search" placeholder="Rechercher" aria-label="Chercher un mot">
+        <div class="filters">${segmented([["all", "Tout"], ["fin", "Finance"]], lexCat, "lcat")}</div>
         <div class="group" id="terms"></div>
       </section>
     `;
@@ -2681,7 +2715,7 @@ function statGrid(figures, sources, theme = "geo") {
 
     function draw(q) {
       const nq = normalize(q.trim());
-      const matches = sorted.filter((g) => !nq || normalize(g.term + " " + g.def).includes(nq));
+      const matches = sorted.filter((g) => (lexCat === "all" || g.cat === lexCat) && (!nq || normalize(g.term + " " + g.def).includes(nq)));
       list.innerHTML = matches.length
         ? matches.map((g) => `
             <div class="row term ${g.id === focusId ? "highlight" : ""}" id="term-${g.id}">
@@ -2695,6 +2729,11 @@ function statGrid(figures, sources, theme = "geo") {
     }
 
     input.addEventListener("input", () => draw(input.value));
+    app.querySelectorAll("[data-lcat]").forEach((b) => b.addEventListener("click", () => {
+      lexCat = b.dataset.lcat;
+      app.querySelectorAll("[data-lcat]").forEach((x) => x.setAttribute("aria-pressed", x === b));
+      draw(input.value);
+    }));
     draw("");
 
     if (focusId) {
