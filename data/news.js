@@ -17,6 +17,893 @@
 window.GEOCO = window.GEOCO || {};
 window.GEOCO.news = [
   {
+    "id": "2026-10-31-france-pib-recule-t3",
+    "date": "2026-10-31",
+    "region": "Europe",
+    "theme": "eco",
+    "geo": [
+      {
+        "name": "Paris, France",
+        "label": "France",
+        "coords": [
+          2.35,
+          48.86
+        ]
+      }
+    ],
+    "title": "La France se contracte au troisième trimestre, alors que la zone euro résiste",
+    "summary": "Le PIB français recule de 0,1 % entre juillet et septembre, quand la zone euro progresse de 0,4 %.",
+    "points": [
+      "L'Insee estime que l'économie française a reculé de 0,1 % au troisième trimestre, alors que les économistes attendaient une légère hausse [1][2][3].",
+      "Le commerce extérieur pèse le plus (exportations en repli de 1,7 %), tandis que la consommation des ménages progresse de 0,4 % [2].",
+      "Dans le même temps, la zone euro grandit de 0,4 % (contre 0,6 % le trimestre précédent) et l'Allemagne de 0,2 % [3][4]."
+    ],
+    "why": [
+      "À retenir : la France est à la traîne de ses voisins, au moment où elle doit voter un budget serré [1][3].",
+      "Un PIB qui baisse veut dire moins de richesse produite, donc moins de recettes pour l'État, alors que le déficit est déjà élevé. Il ne s'agit que d'une première estimation : l'Insee la révisera [2]."
+    ],
+    "forMe": "Une économie qui cale pèse sur l'emploi et sur les marges de manœuvre du budget : c'est un argument de plus dans les débats sur les impôts et les dépenses des prochaines semaines [1][3].",
+    "figures": [
+      {
+        "value": "−0,1 %",
+        "label": "PIB français au 3e trimestre",
+        "src": 2
+      },
+      {
+        "value": "−1,7 %",
+        "label": "exportations françaises",
+        "src": 2
+      },
+      {
+        "value": "+0,4 %",
+        "label": "croissance de la zone euro",
+        "src": 3
+      }
+    ],
+    "culture": [],
+    "dossiers": [],
+    "sources": [
+      {
+        "short": "Boursorama",
+        "name": "Boursorama (Reuters), « France-Contraction surprise du PIB au T3, l'économie à l'arrêt selon Lescure » (30 octobre 2026)",
+        "url": "https://www.boursorama.com/bourse/actualites/france-contraction-surprise-du-pib-au-t3-l-economie-a-l-arret-selon-lescure-4469bc5291d2b591e29fae01e5b67c05"
+      },
+      {
+        "short": "Économie Matin",
+        "name": "Économie Matin, « PIB : l'économie française recule de 0,1 % au troisième trimestre, pénalisée par les exportations » (30 octobre 2026)",
+        "url": "https://www.economiematin.fr/pib-france-troisieme-trimestre-2026-recul-exportations-insee-301026-263"
+      },
+      {
+        "short": "CNBC",
+        "name": "CNBC, « Euro zone economy slows to 0.4% growth in Q3 as crisis-hit France contracts » (30 octobre 2026)",
+        "url": "https://www.cnbc.com/2026/10/30/euro-zone-gdp-france.html"
+      },
+      {
+        "short": "InvestingLive",
+        "name": "InvestingLive, « Germany Q3 preliminary GDP +0.2% vs +0.1% q/q expected » (30 octobre 2026)",
+        "url": "https://investinglive.com/news/germany-q3-preliminary-gdp-0-2-vs-0-1-q-q-expected/"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-france-couvre-feu-paris-toussaint",
+    "date": "2026-10-31",
+    "region": "Europe",
+    "theme": "geo",
+    "verify": "Les horaires du couvre-feu des mineurs ne sont pas les mêmes selon les sources : l'arrêté de la préfecture de police fait foi.",
+    "geo": [
+      {
+        "name": "Paris, France",
+        "label": "Paris",
+        "coords": [
+          2.35,
+          48.86
+        ]
+      }
+    ],
+    "title": "Paris : des couvre-feux le week-end de la Toussaint après les pillages d'octobre",
+    "summary": "La préfecture de police interdit de circuler la nuit à des mineurs, puis à tous, dans certains quartiers du 30 octobre au 2 novembre.",
+    "points": [
+      "Un couvre-feu vise les mineurs non accompagnés dans plusieurs secteurs de Paris, de 21 h à 6 h, du vendredi soir au lundi 2 novembre au matin [1][2]. Un premier arrêté avait été suspendu par le tribunal administratif, une nouvelle mesure a suivi [1][2].",
+      "Un second arrêté interdit la circulation de tous, de 23 h à 6 h, dans les secteurs de République et de Châtelet-Les Halles, du 31 octobre au 2 novembre [2][3].",
+      "La préfecture invoque les pillages et dégradations des 17 et 18 octobre et les incidents du 24 octobre (142 interpellations) [3]."
+    ],
+    "why": [
+      "À retenir : c'est une mesure rare dans la capitale, prise après plusieurs semaines de tensions [2][3].",
+      "Le Premier ministre avait demandé aux préfets des couvre-feux « partiels » et « localisés » [1]. La justice peut encore être saisie de nouveaux recours [2]."
+    ],
+    "forMe": "Si tu es à Paris ce week-end, vérifie les rues concernées sur le site de la préfecture de police avant de sortir tard [2][3].",
+    "figures": [
+      {
+        "value": "21 h – 6 h",
+        "label": "couvre-feu des mineurs concernés",
+        "src": 2
+      },
+      {
+        "value": "23 h – 6 h",
+        "label": "couvre-feu général à République et aux Halles",
+        "src": 3
+      },
+      {
+        "value": "142",
+        "label": "interpellations le 24 octobre",
+        "src": 3
+      }
+    ],
+    "culture": [],
+    "dossiers": [],
+    "sources": [
+      {
+        "short": "Sortiraparis",
+        "name": "Sortiraparis, « Couvre-feu à Paris des mineurs du 30 octobre au 2 novembre 2026 »",
+        "url": "https://sortiraparis.com/actualites/a-paris/articles/356528-couvre-feu-a-paris-des-mineurs-du-30-octobre-au-2-novembre-2026"
+      },
+      {
+        "short": "Affiches Parisiennes",
+        "name": "Affiches Parisiennes, « Week-end de la Toussaint : deux quartiers de Paris sous couvre-feu »",
+        "url": "https://mesinfos.fr/75000-paris/week-end-de-la-toussaint-deux-quartiers-de-paris-sous-couvre-feu-342327.html"
+      },
+      {
+        "short": "La Clé Publique",
+        "name": "La Clé Publique, « Paris : couvre-feux dès 21 h, puis 23 h à République et aux Halles » (30 octobre 2026)",
+        "url": "https://laclepublique.fr/paris/articles/2026/2026-10-30-couvre-feux-toussaint-paris/"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-pologne-cour-constitutionnelle-crise",
+    "date": "2026-10-31",
+    "region": "Europe",
+    "theme": "geo",
+    "geo": [
+      {
+        "name": "Varsovie, Pologne",
+        "label": "Pologne",
+        "coords": [
+          21.01,
+          52.23
+        ]
+      }
+    ],
+    "title": "Pologne : le président fait demi-tour en plein vol pour défendre le chef de la Cour constitutionnelle",
+    "summary": "Le gouvernement fait suspendre le président de la Cour, que le chef de l'État refuse de reconnaître comme écarté.",
+    "points": [
+      "Le président de la Cour constitutionnelle, Bogdan Święczkowski, a été suspendu vendredi soir par des juges proches du gouvernement, qui l'accusent d'avoir enfreint la loi à plusieurs reprises [1][2].",
+      "La Cour répond qu'il reste son président ; lui et son adjoint se sont vu refuser l'entrée du bâtiment [1][2].",
+      "Le président Karol Nawrocki, qui partait au Sénégal, a fait faire demi-tour à son avion, s'est rendu à la Cour, a aidé le juge à entrer et a dénoncé une atteinte à l'ordre constitutionnel [2][3]."
+    ],
+    "why": [
+      "À retenir : deux pouvoirs polonais se disputent qui dirige la plus haute juridiction du pays, et la rue s'en mêle [2][3].",
+      "Le gouvernement cherche depuis des semaines à écarter des juges nommés sous le précédent pouvoir (PiS), tandis que le président a refusé de faire prêter serment à cinq des huit nouveaux juges [3]. Les sources ne tranchent pas sur la légalité de la suspension."
+    ],
+    "forMe": "La Pologne est un voisin de poids dans l'Union européenne : un bras de fer sur l'État de droit peut compliquer les décisions prises à 27 [2][3].",
+    "figures": [
+      {
+        "value": "5 sur 8",
+        "label": "nouveaux juges non assermentés par le président",
+        "src": 3
+      },
+      {
+        "value": "3",
+        "label": "manifestants interpellés dans la nuit",
+        "src": 2
+      }
+    ],
+    "culture": [],
+    "dossiers": [],
+    "sources": [
+      {
+        "short": "Notes from Poland",
+        "name": "Notes from Poland, « Chaos at Poland's constitutional court as government-backed judges seek to oust chief justice » (30 octobre 2026)",
+        "url": "https://notesfrompoland.com/2026/10/30/chaos-at-polands-constitutional-court-as-government-backed-judges-seek-to-oust-chief-justice/"
+      },
+      {
+        "short": "Euronews",
+        "name": "Euronews, « Poland political crisis: Constitutional court in chaos as Nawrocki accuses government of staging power grab » (31 octobre 2026)",
+        "url": "https://www.euronews.com/2026/10/31/poland-political-crisis-constitutional-court-in-chaos-as-nawrocki-accuses-government-of-st"
+      },
+      {
+        "short": "CNN",
+        "name": "CNN, « Polish president turns plane around to return home as court chief's suspension sparks protest » (31 octobre 2026)",
+        "url": "https://edition.cnn.com/2026/10/31/europe/poland-protests-president-karol-nawrocki-flies-home-hnk-intl"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-georgie-azerbaidjan-commission-economique",
+    "date": "2026-10-31",
+    "region": "Europe",
+    "theme": "mix",
+    "verify": "Le contenu du document final signé n'apparaît pas encore dans les sources consultées.",
+    "geo": [
+      {
+        "name": "Sighnaghi, Géorgie",
+        "label": "Géorgie",
+        "coords": [
+          45.92,
+          41.62
+        ]
+      },
+      {
+        "name": "Bakou, Azerbaïdjan",
+        "label": "Azerbaïdjan",
+        "coords": [
+          49.87,
+          40.41
+        ]
+      }
+    ],
+    "title": "Le Premier ministre azerbaïdjanais en Géorgie : transport et énergie au menu du Caucase du Sud",
+    "summary": "Ali Asadov a passé deux jours en Géorgie pour la commission économique commune des deux pays.",
+    "points": [
+      "Le Premier ministre azerbaïdjanais Ali Asadov est arrivé à Tbilissi le 29 octobre pour une visite de travail de deux jours [1][3].",
+      "Il a eu un entretien en tête-à-tête avec son homologue géorgien Irakli Kobakhidze le 30 octobre à Sighnaghi, dans la région de Kakhétie [2][4].",
+      "L'ordre du jour couvrait l'économie, le commerce, les transports, l'énergie et la logistique, avec la 11e commission intergouvernementale et un document final attendu [1][3]."
+    ],
+    "why": [
+      "À retenir : la rencontre porte sur des sujets très concrets (transport, énergie, logistique) entre deux voisins du Caucase du Sud [1][3].",
+      "Le texte final de la commission dira quels projets avancent en priorité ; il n'est pas encore détaillé dans les sources [1][3]."
+    ],
+    "forMe": "Les accords sur le transport et l'énergie dans le Caucase du Sud concernent les routes de marchandises entre l'Asie et l'Europe [1][3].",
+    "figures": [
+      {
+        "value": "11e",
+        "label": "commission économique Géorgie–Azerbaïdjan",
+        "src": 3
+      },
+      {
+        "value": "2 jours",
+        "label": "de visite de travail",
+        "src": 3
+      }
+    ],
+    "culture": [],
+    "dossiers": [],
+    "sources": [
+      {
+        "short": "APA",
+        "name": "APA, « Azerbaijan's Prime Minister Ali Asadov arrives in Georgia for intergovernmental commission meeting »",
+        "url": "https://en.apa.az/foreign-policy/azerbaijans-prime-minister-ali-asadov-arrives-in-georgia-for-intergovernmental-commission-meeting-updated-532890"
+      },
+      {
+        "short": "Report.az",
+        "name": "Report.az, « Azerbaijani, Georgian prime ministers hold talks in Sighnaghi »",
+        "url": "https://report.az/en/foreign-politics/azerbaijani-georgian-prime-ministers-hold-talks-in-sighnaghi"
+      },
+      {
+        "short": "Georgia Today",
+        "name": "Georgia Today, « Azerbaijani PM Ali Asadov arrives in Georgia for two-day working visit »",
+        "url": "https://georgiatoday.ge/azerbaijani-pm-ali-asadov-arrives-in-georgia-for-two-day-working-visit/"
+      },
+      {
+        "short": "OC Media",
+        "name": "OC Media, « Friday, 30 October 2026 »",
+        "url": "https://oc-media.org/friday-30-october-2026/"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-kirghizistan-reseau-electrique-hiver",
+    "date": "2026-10-31",
+    "region": "Asie",
+    "theme": "eco",
+    "verify": "Décision de Sadyr Japarov sur les licences de minage relayée surtout par Eurasianet : à confirmer auprès du gouvernement kirghiz.",
+    "geo": [
+      {
+        "name": "Bichkek, Kirghizistan",
+        "label": "Kirghizistan",
+        "coords": [
+          74.59,
+          42.87
+        ]
+      }
+    ],
+    "title": "Asie centrale : l'hiver menace des réseaux électriques d'époque soviétique, le Kirghizistan gèle le minage de cryptos",
+    "summary": "Le président kirghiz n'accordera plus de licence de minage tant que la production d'électricité n'aura pas augmenté.",
+    "points": [
+      "Eurasianet décrit un réseau d'Asie centrale fragile, souvent surchargé d'après une étude de la Banque eurasienne de développement : le problème tient moins à la capacité totale qu'au moment où l'électricité est disponible [1].",
+      "Le président kirghiz Sadyr Japarov a annoncé qu'aucune nouvelle licence ne serait accordée aux fermes de minage de cryptomonnaies, très gourmandes en courant, tant que la production ne progresse pas [1].",
+      "Au Kirghizistan et au Tadjikistan, les autorités misent sur l'économie d'énergie, l'arrêt des fermes de minage et davantage d'importations ; le Tadjikistan exporte du courant l'été mais en vend moins l'hiver [2]."
+    ],
+    "why": [
+      "À retenir : une grande partie des centrales et des lignes date de l'époque soviétique, et l'hiver est le moment où la demande explose [3].",
+      "La Banque mondiale estime que la demande d'électricité de la région pourrait tripler d'ici 2050 si la tendance se poursuit [3]."
+    ],
+    "forMe": "Loin de chez toi, mais utile à savoir : les cryptomonnaies consomment de l'électricité réelle, et des pays entiers doivent parfois choisir entre elles et le chauffage [1][2].",
+    "figures": [
+      {
+        "value": "× 3",
+        "label": "demande d'électricité possible d'ici 2050 en Asie centrale",
+        "src": 3
+      }
+    ],
+    "culture": [],
+    "dossiers": [],
+    "sources": [
+      {
+        "short": "Eurasianet",
+        "name": "Eurasianet, « Coming winter to test Central Asia's power grid » (octobre 2026)",
+        "url": "https://eurasianet.org/coming-winter-to-test-central-asias-power-grid"
+      },
+      {
+        "short": "Times of Central Asia",
+        "name": "The Times of Central Asia, « Kyrgyzstan and Tajikistan Brace for Winter Power Shortages »",
+        "url": "https://timesca.com/kyrgyzstan-and-tajikistan-brace-for-winter-power-shortages/"
+      },
+      {
+        "short": "Caspian Post",
+        "name": "Caspian Post, « Winter is Coming: Why Resource-Rich Central Asia is Facing an Energy Shortage »",
+        "url": "https://caspianpost.com/opinion/winter-is-coming-why-resource-rich-central-asia-is-facing-an-energy-shortage"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-bhoutan-thailande-visite-premier-ministre",
+    "date": "2026-10-31",
+    "region": "Asie",
+    "theme": "geo",
+    "geo": [
+      {
+        "name": "Thimphou, Bhoutan",
+        "label": "Bhoutan",
+        "coords": [
+          89.64,
+          27.47
+        ]
+      },
+      {
+        "name": "Bangkok, Thaïlande",
+        "label": "Thaïlande",
+        "coords": [
+          100.5,
+          13.75
+        ]
+      }
+    ],
+    "title": "Le Bhoutan reçoit un Premier ministre thaïlandais pour la première fois depuis huit ans",
+    "summary": "Anutin Charnvirakul signe trois accords au royaume himalayen : santé, finance agricole verte et énergie solaire.",
+    "points": [
+      "Le Premier ministre thaïlandais Anutin Charnvirakul est en visite officielle au Bhoutan du 30 octobre au 1er novembre, la première d'un chef de gouvernement thaïlandais en huit ans [1][3].",
+      "La Thaïlande et le Bhoutan ont signé trois accords : santé, financement agricole « vert » et aide technique pour un projet solaire de 100 MW [2].",
+      "Les deux pays veulent aussi s'appuyer sur leur accord de libre-échange pour augmenter échanges et investissements [1][2]."
+    ],
+    "why": [
+      "À retenir : le Bhoutan, petit royaume coincé entre l'Inde et la Chine, diversifie ses partenaires, et la Thaïlande y gagne un allié peu banal [1][3].",
+      "La visite coïncide avec le 37e anniversaire des relations diplomatiques et avec un événement important à Gelephu le 1er novembre [1]."
+    ],
+    "forMe": "Un petit pays peu connu s'ouvre à l'énergie solaire et à l'agriculture verte : l'Asie du Sud et du Sud-Est tissent des liens sans passer par les grandes puissances [1][2].",
+    "figures": [
+      {
+        "value": "8 ans",
+        "label": "depuis la dernière visite officielle d'un Premier ministre thaïlandais",
+        "src": 1
+      },
+      {
+        "value": "100 MW",
+        "label": "projet solaire soutenu par la Thaïlande",
+        "src": 2
+      },
+      {
+        "value": "3",
+        "label": "accords signés",
+        "src": 2
+      }
+    ],
+    "culture": [],
+    "dossiers": [],
+    "sources": [
+      {
+        "short": "Nation Thailand",
+        "name": "The Nation (Thaïlande), « Anutin's Bhutan trip is the first official visit by a Thai prime minister in eight years »",
+        "url": "https://www.nationthailand.com/news/general/40072939"
+      },
+      {
+        "short": "Nation Thailand (accords)",
+        "name": "The Nation (Thaïlande), « Thailand and Bhutan sign 3 cooperation deals on October 31 »",
+        "url": "https://www.nationthailand.com/news/politics/40072974"
+      },
+      {
+        "short": "MGR Online",
+        "name": "MGR Online, « Anutin departs on official visit to Bhutan »",
+        "url": "https://en.mgronline.com/politics/anutin-departs-on-official-visit-to-bhutan-to-strengthen-relations-cooperate-on/"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-inde-conteneurs-fabriquer-10000-crores",
+    "date": "2026-10-31",
+    "region": "Asie",
+    "theme": "eco",
+    "geo": [
+      {
+        "name": "New Delhi, Inde",
+        "label": "Inde",
+        "coords": [
+          77.21,
+          28.61
+        ]
+      }
+    ],
+    "title": "L'Inde veut fabriquer ses propres conteneurs maritimes : dix fois plus d'ici quelques années",
+    "summary": "Le gouvernement débloque 10 000 crores de roupies pour produire des conteneurs aujourd'hui importés.",
+    "points": [
+      "Le gouvernement indien a approuvé un plan de 10 000 crores de roupies (le « Container Manufacturing Promotion Scheme ») pour fabriquer des conteneurs dans le pays [1][2].",
+      "L'objectif est de passer d'environ 70 000 conteneurs-équivalents (EVP) par an à 750 000 [1].",
+      "Le plan court de 2027-28 à 2039-40 : trois ans pour construire les usines, puis dix ans de soutien à la production ; chaque nouvelle usine doit produire au moins 100 000 EVP par an [1][2]."
+    ],
+    "why": [
+      "À retenir : l'Inde cherche à ne plus dépendre de l'étranger pour un maillon de base du commerce mondial, le conteneur [1][3].",
+      "La mesure avait été annoncée dans le budget 2026-27 ; la plus grande part (8 891 crores) sert à aider les usines à produire [1][3]."
+    ],
+    "forMe": "Presque tout ce que tu achètes a voyagé dans un conteneur : qui les fabrique, et à quel prix, joue sur le coût du transport maritime [1][3].",
+    "figures": [
+      {
+        "value": "× 10",
+        "label": "production visée de conteneurs (70 000 → 750 000 EVP)",
+        "src": 1
+      },
+      {
+        "value": "10 000 crores",
+        "label": "de roupies d'aide publique",
+        "src": 2
+      }
+    ],
+    "culture": [],
+    "dossiers": [
+      "routes-maritimes"
+    ],
+    "sources": [
+      {
+        "short": "The Week",
+        "name": "The Week, « What is CMPS? Union Cabinet approves ₹10,000-crore push to boost container manufacturing » (29 octobre 2026)",
+        "url": "https://www.theweek.in/news/maritime/2026/10/29/what-is-cmps-union-cabinet-approves-indian-rupee10000-crore-push-to-boost-container-manufacturing.html"
+      },
+      {
+        "short": "Deccan Chronicle",
+        "name": "Deccan Chronicle, « Union Cabinet Clears ₹10,000 Crore Container Scheme »",
+        "url": "https://www.deccanchronicle.com/nation/union-cabinet-clears-10000-crore-container-scheme-1999689"
+      },
+      {
+        "short": "Maritime Gateway",
+        "name": "Maritime Gateway, « Container Manufacturing Promotion Scheme Wins ₹10,000 Crore Cabinet Approval »",
+        "url": "https://www.maritimegateway.com/container-manufacturing-promotion-scheme-wins-%E2%82%B910000-crore-cabinet-approval/"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-vietnam-banques-etat-65-pourcent",
+    "date": "2026-10-31",
+    "region": "Asie",
+    "theme": "eco",
+    "geo": [
+      {
+        "name": "Hanoï, Vietnam",
+        "label": "Vietnam",
+        "coords": [
+          105.85,
+          21.03
+        ]
+      }
+    ],
+    "title": "Le Vietnam veut garder ses plus grandes banques sous contrôle de l'État",
+    "summary": "Le gouvernement fixe un plancher de 65 % de capital public dans les grandes banques publiques d'ici 2030.",
+    "points": [
+      "Le Vietnam a approuvé un plan fixant à 65 % au moins la part de l'État dans les grandes banques publiques d'ici 2030 [1][2][3].",
+      "L'État détient aujourd'hui environ 76,7 % de BIDV, 74,8 % de Vietcombank et 64,5 % de VietinBank, qui doit donc encore monter un peu [4].",
+      "Agribank reste, elle, détenue à 100 % par l'État jusqu'en 2030 ; le texte ne dit pas comment les objectifs seront atteints [4]."
+    ],
+    "why": [
+      "À retenir : alors que beaucoup de pays vendent des parts de leurs banques, Hanoï choisit de garder la main sur le crédit de l'économie [1][2].",
+      "Contrôler les banques permet d'orienter les prêts vers les secteurs jugés stratégiques, mais limite la place des investisseurs privés [1][2]."
+    ],
+    "forMe": "Le Vietnam est devenu un atelier du monde pour l'électronique et le textile : la façon dont il finance ses usines concerne indirectement les produits que tu achètes [1][2].",
+    "figures": [
+      {
+        "value": "65 %",
+        "label": "part minimale de l'État dans les grandes banques d'ici 2030",
+        "src": 1
+      },
+      {
+        "value": "64,46 %",
+        "label": "part actuelle de l'État dans VietinBank",
+        "src": 4
+      }
+    ],
+    "culture": [],
+    "dossiers": [],
+    "sources": [
+      {
+        "short": "Reuters (Investing)",
+        "name": "Reuters via Investing.com, « Vietnam sets 65% state ownership floor for major banks, to retain control of strategic groups »",
+        "url": "https://www.investing.com/news/stock-market-news/vietnam-sets-65-state-ownership-floor-for-major-banks-to-retain-control-of-strategic-groups-4981418"
+      },
+      {
+        "short": "The Star",
+        "name": "The Star, « Vietnam sets 65% state ownership floor for major banks » (29 octobre 2026)",
+        "url": "https://www.thestar.com.my/aseanplus/aseanplus-news/2026/10/29/vietnam-sets-65-state-ownership-floor-for-major-banks-to-retain-control-of-strategic-groups"
+      },
+      {
+        "short": "The Nation",
+        "name": "The Nation (Thaïlande), « Vietnam sets state ownership targets for banks and companies »",
+        "url": "https://www.nationthailand.com/news/world/40072900"
+      },
+      {
+        "short": "Retail Banker",
+        "name": "Retail Banker International, « Vietnam sets 65% state ownership floor for key banks by 2030 »",
+        "url": "https://www.retailbankerinternational.com/news/vietnam-sets-65-state-ownership-floor-for-banks/"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-cambodge-tourisme-chute-43-pourcent",
+    "date": "2026-10-31",
+    "region": "Asie",
+    "theme": "eco",
+    "geo": [
+      {
+        "name": "Phnom Penh, Cambodge",
+        "label": "Cambodge",
+        "coords": [
+          104.92,
+          11.56
+        ]
+      }
+    ],
+    "title": "Cambodge : presque moitié moins de touristes étrangers qu'il y a un an",
+    "summary": "2,46 millions de visiteurs entre janvier et septembre, contre 4,38 millions un an plus tôt.",
+    "points": [
+      "Le Cambodge a reçu 2 464 033 touristes étrangers de janvier à septembre 2026, contre 4 377 466 à la même période de 2025, soit −43,7 % [1][2].",
+      "Les Vietnamiens (−28 %, 651 486) et les Chinois (−27,6 %, 643 314) restent les premiers visiteurs mais diminuent nettement ; les Américains reculent de 5,6 % [1].",
+      "Le ministre du Tourisme cite la mauvaise publicité liée aux réseaux d'arnaques en ligne, les frictions à la frontière avec la Thaïlande et la hausse du carburant due aux conflits au Moyen-Orient [1][2]."
+    ],
+    "why": [
+      "À retenir : le tourisme est un pilier de l'économie cambodgienne, et ce choc touche hôtels, guides et commerces autour d'Angkor [1][2].",
+      "Les sources ne mesurent pas la part de chaque cause dans la baisse [1][2]."
+    ],
+    "forMe": "Le prix du carburant lié à la guerre autour d'Ormuz se répercute jusque sur les voyages en Asie du Sud-Est, et donc sur les destinations que tu peux envisager [1][2].",
+    "figures": [
+      {
+        "value": "−43,7 %",
+        "label": "touristes étrangers, janv.–sept. 2026",
+        "src": 1
+      },
+      {
+        "value": "2,46 M",
+        "label": "visiteurs contre 4,38 M en 2025",
+        "src": 1
+      }
+    ],
+    "culture": [],
+    "dossiers": [],
+    "sources": [
+      {
+        "short": "Khmer Times",
+        "name": "Khmer Times, « Cambodia's international tourist arrivals plunge 43.7% in Jan–Sept »",
+        "url": "https://www.khmertimeskh.com/502047009/cambodias-international-tourist-arrivals-plunge-43-7-in-jan-sept"
+      },
+      {
+        "short": "Khaosod English",
+        "name": "Khaosod English (Xinhua), « Cambodia's int'l tourist arrivals plunge 43.7 pct in Jan.-Sept. » (27 octobre 2026)",
+        "url": "https://www.khaosodenglish.com/news/asean/2026/10/27/cambodias-intl-tourist-arrivals-plunge-43-7-pct-in-jan-sept/"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-ormuz-petroliers-mines-iran",
+    "date": "2026-10-31",
+    "region": "Moyen-Orient",
+    "theme": "geo",
+    "verify": "Le niveau exact du Brent diffère selon les sources (plus de 117 $ pour CNBC, 112 $ pour Trading Economics) et les mines sont une affirmation iranienne démentie par l'armée américaine.",
+    "geo": [
+      {
+        "name": "Détroit d'Ormuz",
+        "label": "Ormuz",
+        "coords": [
+          56.5,
+          26.57
+        ]
+      }
+    ],
+    "title": "Ormuz : l'Iran affirme que trois pétroliers ont sauté sur des mines, Washington dément",
+    "summary": "Les attaques contre les navires n'ont jamais été aussi nombreuses qu'en octobre, et les flux de pétrole baissent.",
+    "points": [
+      "Les Gardiens de la Révolution iraniens affirment que trois pétroliers ont heurté des mines et pris feu dans le détroit d'Ormuz ; l'armée américaine nie, assurant que les routes principales ont été déminées [1][2].",
+      "Selon CNBC, plus de navires, surtout des pétroliers, ont été attaqués en octobre qu'à tout autre moment de la guerre, et le brut a pris plus de 13 % sur le mois [1].",
+      "Les exportations de brut par Ormuz ont atteint en moyenne près de 11,1 millions de barils par jour en octobre, mais seulement 7,3 millions la semaine finissant mercredi, plus de 40 % sous le niveau d'avant-guerre selon Kpler [1]."
+    ],
+    "why": [
+      "À retenir : même sous les attaques, des pétroliers continuent de passer, mais en moins grand nombre, et le marché le paie [1].",
+      "Le Brent a dépassé 117 dollars selon CNBC, tout près de son record de guerre (118,35 $ en mars) ; un autre relevé donne 112 dollars [1][3]."
+    ],
+    "forMe": "Un pétrole cher se paie à la pompe et dans la facture de chauffage : la tension à Ormuz touche directement ton budget [1][3].",
+    "figures": [
+      {
+        "value": "7,3 M",
+        "label": "barils/jour par Ormuz, plus de 40 % sous l'avant-guerre",
+        "src": 1
+      },
+      {
+        "value": "+13 %",
+        "label": "hausse du brut sur octobre",
+        "src": 1
+      },
+      {
+        "value": "117 $",
+        "label": "Brent selon CNBC (112 $ selon un autre relevé)",
+        "src": 1
+      }
+    ],
+    "culture": [],
+    "dossiers": [
+      "routes-maritimes"
+    ],
+    "sources": [
+      {
+        "short": "CNBC",
+        "name": "CNBC, « Tankers defy Iran attacks to keep crude oil flowing through Hormuz » (30 octobre 2026)",
+        "url": "https://www.cnbc.com/2026/10/30/tanker-attack-strait-hormuz-iran-war-oil.html"
+      },
+      {
+        "short": "AP (Audacy)",
+        "name": "Associated Press via Audacy, « Three tankers strike mines and catch fire in Strait of Hormuz, Iran claims, and other Mideast news » (30 octobre 2026)",
+        "url": "https://www.audacy.com/newsradiowrva/news/world/mideast-news-october-30-2026-7f7f34ceb62f294a450e48ace0bd56e0"
+      },
+      {
+        "short": "Trading Economics",
+        "name": "Trading Economics, « Brent crude oil »",
+        "url": "https://tradingeconomics.com/commodity/brent-crude-oil"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-venezuela-machado-retour-petrole",
+    "date": "2026-10-31",
+    "region": "Amériques",
+    "theme": "geo",
+    "verify": "La date du retour de María Corina Machado diffère selon les sources (25 ou 29 octobre) ; la part de réserves concernée par l'accord pétrolier vient d'Al Jazeera seul.",
+    "geo": [
+      {
+        "name": "Caracas, Venezuela",
+        "label": "Venezuela",
+        "coords": [
+          -66.9,
+          10.49
+        ]
+      },
+      {
+        "name": "Corpus Christi, États-Unis",
+        "label": "Texas",
+        "coords": [
+          -97.4,
+          27.8
+        ]
+      }
+    ],
+    "title": "Venezuela : l'opposante Machado rentre d'exil et réclame des élections, en critiquant l'accord pétrolier avec les États-Unis",
+    "summary": "Après environ dix mois à l'étranger, elle demande un vote en 2027 et plus de transparence sur le pétrole.",
+    "points": [
+      "María Corina Machado est revenue à Caracas après environ dix mois d'exil et demande des élections ; elle a remercié Donald Trump pour son soutien [1][2].",
+      "Elle critique l'accord pétrolier signé par la dirigeante par intérim Delcy Rodríguez, qui céderait environ 20 % des réserves du pays, selon Al Jazeera, et le juge opaque [1].",
+      "Donald Trump a marqué la première livraison de pétrole vénézuélien à Corpus Christi (Texas) quelques jours après son retour ; Delcy Rodríguez promet des élections sans date [1][3]."
+    ],
+    "why": [
+      "À retenir : le Venezuela est dirigé par l'adjointe de Maduro, capturé par les États-Unis en janvier, et son pétrole part désormais vers le Texas [1][2].",
+      "La question est de savoir quand les Vénézuéliens voteront, et qui profitera du pétrole [1][3]."
+    ],
+    "forMe": "Plus de pétrole vénézuélien sur le marché peut aider à calmer les prix de l'énergie, mais l'accord soulève des questions de démocratie et de transparence [1][3].",
+    "figures": [
+      {
+        "value": "~ 10 mois",
+        "label": "d'exil de Machado",
+        "src": 1
+      },
+      {
+        "value": "~ 20 %",
+        "label": "des réserves pétrolières concernées par l'accord, selon Al Jazeera",
+        "src": 1
+      }
+    ],
+    "culture": [],
+    "dossiers": [],
+    "sources": [
+      {
+        "short": "Al Jazeera",
+        "name": "Al Jazeera, « Venezuela's Machado lauds Trump for 'freedom', urges 2027 elections » (30 octobre 2026)",
+        "url": "https://www.aljazeera.com/news/2026/10/30/machado-lauds-trump-for-freedom-floodgate-urges-2027-elections"
+      },
+      {
+        "short": "Yahoo News",
+        "name": "Yahoo News, « Venezuelan opposition leader María Machado returns after months in exile »",
+        "url": "https://www.yahoo.com/news/articles/venezuelan-opposition-leader-mar-machado-171200782.html"
+      },
+      {
+        "short": "HNGN",
+        "name": "HNGN, « Trump Hails Venezuelan Oil in Texas as Machado Presses Elections » (28 octobre 2026)",
+        "url": "https://www.hngn.com/articles/273602/20261028/trump-hails-venezuelan-oil-texas-machado-presses-elections.htm"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-perou-fujimori-prison-salvador",
+    "date": "2026-10-31",
+    "region": "Amériques",
+    "theme": "geo",
+    "geo": [
+      {
+        "name": "Lima, Pérou",
+        "label": "Pérou",
+        "coords": [
+          -77.04,
+          -12.05
+        ]
+      },
+      {
+        "name": "Tecoluca, Salvador",
+        "label": "Salvador",
+        "coords": [
+          -88.8,
+          13.6
+        ]
+      }
+    ],
+    "title": "Le Pérou veut copier la mégaprison du Salvador : Keiko Fujimori visite le CECOT",
+    "summary": "La présidente péruvienne annonce deux nouvelles prisons, dont une sur le modèle salvadorien.",
+    "points": [
+      "La présidente du Pérou Keiko Fujimori a visité le jeudi 29 octobre le CECOT, la prison de très haute sécurité construite par Nayib Bukele au Salvador [1][2].",
+      "Elle a annoncé que le Pérou construirait deux nouvelles prisons, l'une inspirée du CECOT et l'autre à sécurité moindre, sans donner de coût ni de date [3].",
+      "Bukele a dit que le Salvador partagerait son expérience pour que le Pérou l'adapte à ses lois [3]."
+    ],
+    "why": [
+      "À retenir : le « modèle Bukele » séduit de plus en plus de dirigeants d'Amérique latine face à la criminalité [1][2].",
+      "Le CECOT est devenu célèbre quand l'administration Trump y a envoyé plus de 250 Vénézuéliens expulsés, accusés de liens avec un gang, sans preuves présentées [1]."
+    ],
+    "forMe": "La sécurité est devenue un thème électoral majeur dans la région, et les choix faits à Lima ou à San Salvador influencent les débats ailleurs [1][2].",
+    "figures": [
+      {
+        "value": "2",
+        "label": "nouvelles prisons annoncées au Pérou",
+        "src": 3
+      },
+      {
+        "value": "250+",
+        "label": "Vénézuéliens envoyés au CECOT par Washington",
+        "src": 1
+      }
+    ],
+    "culture": [],
+    "dossiers": [],
+    "sources": [
+      {
+        "short": "Washington Post",
+        "name": "The Washington Post (AP), « Peru's Fujimori becomes latest Latin American leader to visit notorious Salvadoran prison CECOT » (29 octobre 2026)",
+        "url": "https://www.washingtonpost.com/world/2026/10/29/el-salvador-peru-bukele-fujimori-cecot-visit/9094a65c-d3f7-11f1-9931-2a41b76fc976_story.html"
+      },
+      {
+        "short": "Latin Times",
+        "name": "Latin Times, « Peru's Keiko Fujimori tours El Salvador's CECOT prison as she weighs Bukele-style security policies »",
+        "url": "https://www.latintimes.com/fujimori-el-salvador-bukele-security-model-600635"
+      },
+      {
+        "short": "Rio Times",
+        "name": "The Rio Times, « Peru Plans New Prisons Like El Salvador's »",
+        "url": "https://riotimesonline.com/peru-two-new-prisons-cecot-model-fujimori-2026"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-nigeria-dangote-raffinerie-bourse",
+    "date": "2026-10-31",
+    "region": "Afrique",
+    "theme": "eco",
+    "verify": "Les montants viennent de sources anonymes citées par Reuters ; l'allocation et la cotation en Bourse ne sont pas encore officielles.",
+    "geo": [
+      {
+        "name": "Lagos, Nigeria",
+        "label": "Nigeria",
+        "coords": [
+          3.38,
+          6.52
+        ]
+      }
+    ],
+    "title": "Nigeria : l'entrée en Bourse de la raffinerie Dangote attire environ trois fois la somme visée",
+    "summary": "Les ordres atteindraient 6,4 mille milliards de nairas, soit près de 4,8 milliards de dollars.",
+    "points": [
+      "L'offre d'actions de la raffinerie Dangote a, selon les informations disponibles, été largement sursouscrite à sa clôture, le 27 octobre [1][2].",
+      "D'après Reuters, citant deux sources, les ordres atteignent environ 6,4 mille milliards de nairas (4,78 milliards de dollars), soit près de trois fois l'objectif de 2,15 mille milliards (1,6 milliard de dollars) [1].",
+      "Le prix est de 525 nairas par action ; une option pourrait porter l'opération au-delà de 2,1 milliards de dollars, et les petits épargnants seraient servis en priorité [1][2]."
+    ],
+    "why": [
+      "À retenir : cette introduction en Bourse serait l'une des plus grosses d'Afrique, portée par l'appétit des investisseurs pour le raffinage local [1][2].",
+      "Les investisseurs pourraient n'obtenir qu'une partie des titres demandés ; l'allocation et la cotation à la Bourse de Lagos restent à venir [1][2]."
+    ],
+    "forMe": "Un raffineur africain géant réduit la dépendance du continent aux carburants importés, ce qui compte quand le pétrole est cher [1][2].",
+    "figures": [
+      {
+        "value": "~ 3 ×",
+        "label": "demande par rapport à l'objectif de l'offre",
+        "src": 1
+      },
+      {
+        "value": "4,78 Md$",
+        "label": "d'ordres, selon Reuters",
+        "src": 1
+      }
+    ],
+    "culture": [],
+    "dossiers": [],
+    "sources": [
+      {
+        "short": "Streamlinefeed",
+        "name": "Streamlinefeed, « Dangote Refinery IPO Reportedly Oversubscribed Three Times at Close » (d'après Reuters)",
+        "url": "https://streamlinefeed.co.ke/news/dangote-refinery-ipo-reportedly-oversubscribed-three-times-at-close"
+      },
+      {
+        "short": "Energy News",
+        "name": "Energy News, « Dangote Refinery's Nigerian Stock Market Listing Offer Is Oversubscribed »",
+        "url": "https://energynews.pro/en/dangote-refinerys-nigerian-stock-market-listing-offer-is-oversubscribed"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-afrique-raffineries-or-ethiopie-zambie",
+    "date": "2026-10-31",
+    "region": "Afrique",
+    "theme": "eco",
+    "verify": "Une seule source (QNC News) : chiffres éthiopiens et zambiens à confirmer auprès des gouvernements.",
+    "geo": [
+      {
+        "name": "Addis-Abeba, Éthiopie",
+        "label": "Éthiopie",
+        "coords": [
+          38.75,
+          9.03
+        ]
+      },
+      {
+        "name": "Lusaka, Zambie",
+        "label": "Zambie",
+        "coords": [
+          28.28,
+          -15.39
+        ]
+      }
+    ],
+    "title": "Afrique : l'Éthiopie et la Zambie ouvrent leurs raffineries d'or pour garder la valeur chez elles",
+    "summary": "Quatre pays africains lancent ou agrandissent des raffineries d'or en 2026, alors que le métal reste très cher.",
+    "points": [
+      "L'Éthiopie a lancé en octobre une raffinerie de métaux précieux de 50 millions de dollars, d'une capacité de plus de 600 tonnes par an ; l'État en détient la majorité [1].",
+      "La Zambie a présenté le 25 octobre à Lusaka une raffinerie capable d'atteindre 99 à 99,99 % de pureté, avec un plan de deux ans pour encadrer l'orpaillage artisanal [1].",
+      "Les exportations d'or ont rapporté 5,6 milliards de dollars à l'Éthiopie en 2025-2026, et la Zambie a délivré 1 201 licences d'orpaillage artisanal depuis 2023 [1]."
+    ],
+    "why": [
+      "À retenir : raffiner sur place rapporte plus que vendre de l'or brut, et limite la contrebande [1].",
+      "Les pays africains cherchent de plus en plus à transformer leurs ressources sur place plutôt que de les exporter à l'état brut [1]."
+    ],
+    "forMe": "L'or sert de valeur refuge et entre dans l'électronique : où il est raffiné change qui capte la richesse de la chaîne [1].",
+    "figures": [
+      {
+        "value": "5,6 Md$",
+        "label": "d'exportations d'or de l'Éthiopie en 2025-26",
+        "src": 1
+      },
+      {
+        "value": "600 t/an",
+        "label": "capacité de la raffinerie éthiopienne",
+        "src": 1
+      }
+    ],
+    "culture": [],
+    "dossiers": [],
+    "sources": [
+      {
+        "short": "QNC News",
+        "name": "QNC News, « Africa Gold Refining Boom Tests Drive to Keep Mineral Wealth at Home » (30 octobre 2026)",
+        "url": "https://qncnews.com/2026/10/30/africa-gold-refining-boom-tests-drive-to-keep-mineral-wealth-at-home"
+      }
+    ]
+  },
+  {
     "id": "2026-10-30-israel-elections-aucune-majorite",
     "date": "2026-10-30",
     "region": "Moyen-Orient",

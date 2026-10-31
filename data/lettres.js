@@ -2,6 +2,16 @@
 window.GEOCO = window.GEOCO || {};
 window.GEOCO.lettres = [
   {
+    "date": "2026-10-31",
+    "file": "lettres/2026-10-31.pdf",
+    "titles": [
+      "La France se contracte au troisième trimestre, alors que la zone euro résiste",
+      "Paris : des couvre-feux le week-end de la Toussaint après les pillages d'octobre",
+      "Pologne : le président fait demi-tour en plein vol pour défendre le chef de la Cour constitutionnelle"
+    ],
+    "fileDark": "lettres/2026-10-31-sombre.pdf"
+  },
+  {
     "date": "2026-10-30",
     "file": "lettres/2026-10-30.pdf",
     "titles": [
