@@ -175,6 +175,11 @@
   // précise lui-même plus: true ou plus: false dans data/culture.js.
   const articlePlus = (c) => { if (typeof c.plus === "boolean") return c.plus; const i = (window.GEOCO.culture || []).indexOf(c); return i % 2 === 1; };
   const articleLocked = (c) => articlePlus(c) && !isPlus();
+  // Finance (choix de l'auteur, 31 oct. 2026) : le rideau Finance est compris dans Geonomix+. Aperçu gratuit :
+  // la plus récente actu finance et les mots de base de la Bourse ; « Côté marchés » et « Ça s'est déjà passé »
+  // sont réservés sur toutes les actus.
+  const latestFin = () => (window.GEOCO.news || []).find((x) => x.theme === "fin");
+  const finLocked = (n) => !!n && n.theme === "fin" && !isPlus() && latestFin() !== n;
   const plusTag = () => `<span class="plus-tag">🔒 ${offre.name}</span>`;
   function paywall(why) {
     return `
@@ -256,7 +261,7 @@
   function newsCard(n) {
     return `
       <a class="news-card ${n.theme} reveal${isNear(n) ? " near" : ""}" href="#/actu/${n.id}">
-        <p class="eyebrow">${themeChip(n.theme)}${isNear(n) ? ` <span class="near-badge">📍 Près de chez toi</span>` : ""}${n.region ? ` · ${n.region}` : ""}${n.deep ? ` · <span class="deep-badge">＋ ${I18N.t("Approfondi")}</span>` : ""}${n.verify ? ` · <span class="verify-badge">⚠️ ${I18N.t("Source à vérifier")}</span>` : ""}${episodesFor("news", n.id).length ? ` · <span class="pod-badge">🎙️ En podcast</span>` : ""}</p>
+        <p class="eyebrow">${themeChip(n.theme)}${isNear(n) ? ` <span class="near-badge">📍 Près de chez toi</span>` : ""}${n.region ? ` · ${n.region}` : ""}${n.deep ? ` · <span class="deep-badge">＋ ${I18N.t("Approfondi")}</span>` : ""}${n.verify ? ` · <span class="verify-badge">⚠️ ${I18N.t("Source à vérifier")}</span>` : ""}${finLocked(n) ? " · " + plusTag() : ""}${episodesFor("news", n.id).length ? ` · <span class="pod-badge">🎙️ En podcast</span>` : ""}</p>
         <h3>${n.title}</h3>
         <p class="summary">${n.summary}</p>
         <span class="more">Comprendre en 2 min ›</span>
@@ -273,7 +278,7 @@
       <a class="news-card mcard m-${size} ${n.theme}${isNear(n) ? " near" : ""}" href="#/actu/${n.id}" data-kind="${size === "text" ? "" : kind}">
         ${ill}
         <div class="mc-body">
-          <p class="mc-meta"><i class="mc-dot ${n.theme}" title="${THEMES[n.theme]}"></i>${relDay(n.date)}${n.region ? ` · ${n.region}` : ""}${n.verify ? ` <span class="verify-badge" title="${I18N.t("Source à vérifier")}">⚠️</span>` : ""}</p>
+          <p class="mc-meta"><i class="mc-dot ${n.theme}" title="${THEMES[n.theme]}"></i>${relDay(n.date)}${n.region ? ` · ${n.region}` : ""}${n.verify ? ` <span class="verify-badge" title="${I18N.t("Source à vérifier")}">⚠️</span>` : ""}${finLocked(n) ? ` <span class="plus-lock" title="${offre.name}">🔒</span>` : ""}</p>
           <h3>${n.title}</h3>
           ${size === "big" || size === "text" ? `<p class="summary">${n.summary}</p>` : ""}
         </div>
@@ -1266,6 +1271,7 @@
         <li>Les cours d'approfondissement et leurs quiz</li>
         <li>Tous les épisodes du podcast, en illimité</li>
         <li>Un article de presse sur deux, en entier</li>
+        <li>Le rideau Finance : toutes les actus des marchés, « Côté marchés » et les exemples du passé</li>
         <li>Les archives : Focus industrie, études de cas, lettres du matin</li>
         <li>Bientôt : flashcards et mode Concours</li>
       </ul>`;
@@ -1636,9 +1642,45 @@
   // « Côté marchés » (demande de l'auteur, 31 oct. 2026 : le côté finance d'une actu) : champ `markets` de
   // data/news.js { text?, items: [{ name, ticker?, move?, why }] } : les entreprises touchées et ce qu'en dit la Bourse,
   // sourcé comme le reste. Pour comprendre, jamais un conseil d'achat.
+  // Encadré verrouillé (Finance) : le titre et un avant-goût, puis le lien vers l'abonnement.
+  function finTeaser(title, hint) {
+    return `
+      <section class="section">
+        <div class="wrap">
+          <div class="fin-teaser reveal">
+            <p class="eyebrow"><span class="theme-chip fin"><i aria-hidden="true"></i>${I18N.t("Finance")}</span> ${plusTag()}</p>
+            <h2>${title}</h2>
+            ${hint ? `<p class="fin-hint">${hint}</p>` : ""}
+            <a class="pill-btn blue" href="#/abonnement">${I18N.t("Débloquer avec")} ${offre.name}</a>
+          </div>
+        </div>
+      </section>`;
+  }
+
+  // « Ça s'est déjà passé » (demande de l'auteur, 31 oct. 2026 : un maximum d'exemples passés en finance) : champ
+  // `past` de data/news.js { title?, items: [{ when, what, lesson? }] } : des précédents datés et sourcés, avec ce qu'ils
+  // ont donné pour les marchés ou les investisseurs.
+  function pastBlock(n) {
+    const p = n.past;
+    if (!p || !(p.items || []).length) return "";
+    if (!isPlus()) return finTeaser(I18N.t("Ça s'est déjà passé."), p.items.map((x) => x.when).join(" · "));
+    const src = n.sources;
+    return `
+      <section class="section">
+        <div class="wrap">
+          <p class="eyebrow reveal"><span class="theme-chip fin"><i aria-hidden="true"></i>${I18N.t("Finance")}</span></p>
+          <h2 class="title reveal">${I18N.t("Ça s'est déjà passé.")}</h2>
+          ${p.title ? `<p class="copy reveal">${p.title}</p>` : ""}
+          <ol class="past reveal">${p.items.map((x) => `
+            <li><span class="past-when">${x.when}</span><div><p>${cite(x.what, src)}</p>${x.lesson ? `<p class="past-lesson">${cite(x.lesson, src)}</p>` : ""}</div></li>`).join("")}</ol>
+        </div>
+      </section>`;
+  }
+
   function marketsBlock(n) {
     const m = n.markets;
     if (!m || !(m.items || []).length) return "";
+    if (!isPlus()) return finTeaser(I18N.t("Côté marchés."), m.items.map((x) => x.name).join(" · "));
     const src = n.sources, dir = (v) => (/^\s*[-−–]/.test(v || "") ? "down" : /^\s*\+/.test(v || "") ? "up" : "");
     return `
       <section class="section">
@@ -1662,6 +1704,18 @@
     if (!n) return renderNotFound();
     const cult = (n.culture || []).map((c) => byId(culture, c)).filter(Boolean);
     const doss = coursesFor(n);
+    if (finLocked(n)) {
+      app.innerHTML = `
+        <section class="wrap hero">
+          <a class="back" href="#/actu">‹ Actu</a>
+          <p class="eyebrow reveal">${themeChip(n.theme)} ${formatDate(n.date)} · ${plusTag()}</p>
+          <h1 class="title reveal">${n.title}</h1>
+          <p class="lead reveal">${n.summary}</p>
+          ${!n.image && window.GeocoIllus ? `<figure class="news-illus reveal">${window.GeocoIllus.svg(n)}</figure>` : ""}
+        </section>
+        ${paywall(I18N.t("Le rideau Finance est compris dans l'abonnement : toutes les actus des marchés, ce qu'en dit la Bourse et les exemples du passé pour comprendre."))}`;
+      return;
+    }
 
     app.innerHTML = `
       <section class="wrap hero">
@@ -1694,6 +1748,8 @@
       </section>
 
       ${marketsBlock(n)}
+
+      ${pastBlock(n)}
 
       ${deepBlock(n)}
 

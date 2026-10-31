@@ -67,6 +67,16 @@ news.forEach((n, i) => {
     const known = new Set(["context", "sides", "watch", "explainer", "numbers"]);
     Object.keys(d).forEach((k) => { if (!known.has(k)) err(w, `bloc « ${k} » inconnu dans deep`); });
   }
+  if (n.theme === "fin" && !n.past) warn.push(`${w} : actu finance sans exemples passés (champ past)`);
+  // « Ça s'est déjà passé » : chaque précédent est daté et sourcé.
+  if (n.past) {
+    if (!Array.isArray(n.past.items) || !n.past.items.length) err(w, "past : items manquant");
+    (n.past.items || []).forEach((x) => {
+      if (!x.when || !x.what) err(w, "past : chaque précédent a un when et un what");
+      if (!/\[\d+\]/.test(x.what || "")) err(w, `past : le précédent « ${x.when} » doit être sourcé [n]`);
+      checkCites(w + " (passé)", x.what, n.sources); if (x.lesson) checkCites(w + " (passé)", x.lesson, n.sources);
+    });
+  }
   // « Côté marchés » (thème Finance) : chaque ligne sur une entreprise est sourcée, une variation de cours aussi.
   if (n.markets) {
     const m = n.markets;

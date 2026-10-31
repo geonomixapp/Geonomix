@@ -1495,3 +1495,14 @@ section.flash { animation: partFlash 1.6s ease-out; }
 .marches-detail .mterm-ex { color: #8ff0c4; font-size: 15px; }
 .marches-news { margin-top: 26px; }
 .mkt-note a { color: #8ff0c4; }
+
+/* Finance réservée à Geonomix+ : encadré d'avant-goût, et « Ça s'est déjà passé » */
+.fin-teaser { background: linear-gradient(160deg, rgba(52,211,153,.12), rgba(52,211,153,.02)); border: 1px solid rgba(52,211,153,.3); border-radius: 22px; padding: 20px 20px 22px; max-width: 760px; }
+.fin-teaser h2 { font-family: var(--serif); font-size: 26px; margin: 8px 0 6px; }
+.fin-hint { color: var(--muted); font-size: 15px; margin: 0 0 16px; filter: blur(.4px); }
+.plus-lock { font-size: 12px; }
+.past { list-style: none; margin: 18px 0 0; padding: 0; max-width: 760px; display: grid; gap: 12px; }
+.past li { display: grid; grid-template-columns: 76px 1fr; gap: 14px; background: var(--surface); border-radius: 18px; padding: 14px 16px; }
+.past-when { font: 700 18px var(--serif); color: #8ff0c4; font-variant-numeric: tabular-nums; }
+.past li p { margin: 0; font-size: 16px; line-height: 1.45; color: var(--text); }
+.past-lesson { margin-top: 6px !important; color: var(--muted) !important; font-size: 15px !important; }

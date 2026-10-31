@@ -154,14 +154,15 @@ function body(v, list) {
   return regions.map((r) => { const l = list.filter((n) => n.region === r);
     return `<div class="shelf-h"><b>${r}</b><span>${l.length} actu${l.length > 1 ? "s" : ""}</span></div><div class="shelf">${l.map((n) => `<div class="poster"><div class="il">${GeocoIllus.svg(n, kind(n))}</div><h4>${n.title}</h4></div>`).join("")}</div>`; }).join("");
 }
+const plusNote = `<div class="word-def" style="margin-top:12px;border-top-color:#f5c86b"><b>🔒 Compris dans Geonomix+</b><br><span style="color:var(--dim)">La dernière actu finance et les mots de base restent offerts. Les autres actus, « Côté marchés » et « Ça s'est déjà passé » (les exemples du passé) sont pour les abonnés.</span></div>`;
 const words = () => `<p class="lbl">Comprendre les marchés</p><div class="words">${TERMS.map((g) => `<button aria-pressed="false" data-w="${g.id}">${g.term}</button>`).join("")}</div><div class="word-def" hidden></div>`;
 
 document.querySelectorAll(".phone").forEach((ph) => {
   const v = ph.dataset.v;
   ph.innerHTML = `<div class="top"><p class="ph-title">L'actu.</p><div class="curtains" role="tablist">
-      ${ORDER.map(([t, l, c], i) => `<button role="tab" style="--c:${c}" aria-selected="${i === 0}" data-i="${i}"><i></i>${l}<small>${of(t).length}</small></button>`).join("")}
+      ${ORDER.map(([t, l, c], i) => `<button role="tab" style="--c:${c}" aria-selected="${i === 0}" data-i="${i}"><i></i>${l}${t === "fin" ? " 🔒" : ""}<small>${of(t).length}</small></button>`).join("")}
       <span class="bar" style="--c:var(--eco)"></span></div></div>
-    <div class="viewport"><div class="slider">${ORDER.map(([t, l, c]) => `<div class="slide" style="--c:${c}">${cover(of(t), l)}${t === "fin" ? words() : ""}${body(v, of(t))}</div>`).join("")}</div></div>`;
+    <div class="viewport"><div class="slider">${ORDER.map(([t, l, c]) => `<div class="slide" style="--c:${c}">${cover(of(t), l)}${t === "fin" ? plusNote + words() : ""}${body(v, of(t))}</div>`).join("")}</div></div>`;
   const tabs = ph.querySelectorAll(".curtains button"), bar = ph.querySelector(".bar"), slider = ph.querySelector(".slider");
   let cur = 0;
   const go = (i) => { cur = i; tabs.forEach((b, k) => b.setAttribute("aria-selected", k === i)); slider.style.transform = `translateX(-${i * 100}%)`; bar.style.transform = `translateX(${i * 100}%)`; bar.style.setProperty("--c", ORDER[i][2]); };
