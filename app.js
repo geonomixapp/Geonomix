@@ -1158,6 +1158,46 @@
     }));
   }
 
+  // « À venir » (demande de l'auteur, 31 oct. 2026 : les dates qui comptent demain, dans la semaine, dans le mois) :
+  // data/agenda.js, rangé par échéance (Demain, Cette semaine, Ce mois-ci, Plus tard), avec le compte à rebours.
+  // Un toucher ouvre le pourquoi et les sources.
+  const agenda = window.GEOCO.agenda || [];
+  function agendaHTML(max = 0) {
+    const t0 = Date.parse(new Date().toISOString().slice(0, 10));
+    const days = (d) => Math.round((Date.parse(d) - t0) / 864e5);
+    const items = agenda.filter((a) => days(a.end || a.date) >= 0).sort((a, b) => (a.date < b.date ? -1 : 1));
+    if (!items.length) return "";
+    const bucket = (a) => { const d = days(a.date); return d <= 0 ? I18N.t("En cours") : d === 1 ? I18N.t("Demain") : d <= 7 ? I18N.t("Cette semaine") : d <= 31 ? I18N.t("Ce mois-ci") : I18N.t("Plus tard"); };
+    const when = (a) => { const d = days(a.date); return d <= 0 ? I18N.t("En cours") : d === 1 ? I18N.t("Demain") : I18N.t("Dans {n} jours").replace("{n}", d); };
+    const fmt = (d, o) => new Date(d + "T12:00:00").toLocaleDateString(LOCALE, o);
+    const list = max ? items.slice(0, max) : items;
+    let last = "";
+    return `
+      <div class="agenda">
+        ${list.map((a) => {
+          const b = bucket(a), head = b !== last ? `<p class="ag-bucket">${b}</p>` : ""; last = b;
+          return `${head}
+          <button class="ag-item ${a.theme}" type="button" aria-expanded="false">
+            <span class="ag-date"><b>${fmt(a.date, { day: "numeric" })}</b>${fmt(a.date, { month: "short" })}</span>
+            <span class="ag-main">
+              <span class="ag-meta"><span class="ag-when"><i class="mc-dot ${a.theme}"></i>${when(a)}</span>${a.end ? ` · ${I18N.t("jusqu'au")} ${fmt(a.end, { day: "numeric", month: "long" })}` : ""}${a.place ? ` · ${a.place}` : ""}${a.verify ? ` · ⚠️` : ""}</span>
+              <span class="ag-title">${a.title}</span>
+              <span class="ag-why"><span>${cite(a.why, a.sources)}</span>${a.verify ? `<span class="ag-verify">⚠️ ${a.verify}</span>` : ""}
+                <span class="ag-src">${a.sources.map((s) => `<a href="${s.url}" target="_blank" rel="noopener">${s.short}</a>`).join(" · ")}</span>
+                ${a.news ? `<a class="ag-news" href="#/actu/${a.news}">${I18N.t("L'actu liée")} ›</a>` : ""}</span>
+            </span>
+          </button>`;
+        }).join("")}
+        ${max && items.length > max ? `<a class="more-link" href="#/actu">${I18N.t("Tout l'agenda")} ›</a>` : ""}
+      </div>`;
+  }
+  function bindAgenda(root) {
+    root.querySelectorAll(".ag-item").forEach((b) => b.addEventListener("click", (e) => {
+      if (e.target.closest("a")) return;
+      b.setAttribute("aria-expanded", b.getAttribute("aria-expanded") !== "true");
+    }));
+  }
+
   function renderActuIndex() {
     app.innerHTML = `
       <section class="wrap hero">
@@ -1176,6 +1216,12 @@
         ${etudesBlock(false)}
       </section>
 
+      ${agenda.length ? `<section class="wrap agenda-wrap" aria-labelledby="ag-title">
+        <h2 class="title reveal" id="ag-title">${I18N.t("À venir.")}</h2>
+        <p class="copy reveal">${I18N.t("Les dates qui vont compter : demain, cette semaine, ce mois-ci.")}</p>
+        <div class="reveal">${agendaHTML()}</div>
+      </section>` : ""}
+
       <section class="wrap actu-days">
         <h2 class="title reveal">L'actu.</h2>
         <div class="filters reveal">
@@ -1187,6 +1233,7 @@
         <div id="actu-list"></div>
       </section>
     `;
+    bindAgenda(app);
     function drawList() {
       const list = news.filter((n) =>
         (actuTheme === "all" || n.theme === actuTheme || (n.theme === "mix" && actuTheme !== "fin") || (n.theme === "fin" && actuTheme === "eco")) &&
@@ -1746,6 +1793,8 @@
           ${n.why.map((p) => `<p class="copy reveal">${para(p, n.sources)}</p>`).join("")}
         </div>
       </section>
+
+      ${n.next ? `<section class="wrap"><div class="next-box reveal"><p class="eyebrow">${I18N.t("Et après ?")}</p>${[].concat(n.next).map((x) => `<p><b>${x.when}</b> ${cite(x.what, n.sources)}</p>`).join("")}</div></section>` : ""}
 
       ${marketsBlock(n)}
 

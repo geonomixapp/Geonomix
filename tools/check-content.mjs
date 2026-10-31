@@ -5,7 +5,7 @@ import vm from "vm";
 
 const ctx = { window: {} };
 vm.createContext(ctx);
-for (const f of ["data/content.js", "data/news.js", "data/culture.js", "data/etudes.js", "data/indicators.js", "data/conflits.js", "data/focus.js"]) {
+for (const f of ["data/content.js", "data/news.js", "data/culture.js", "data/etudes.js", "data/indicators.js", "data/conflits.js", "data/focus.js", "data/agenda.js"]) {
   vm.runInContext(fs.readFileSync(f, "utf8"), ctx, { filename: f });
 }
 const { dossiers, glossary, news, culture, indicators } = ctx.window.GEOCO;
@@ -68,6 +68,7 @@ news.forEach((n, i) => {
     Object.keys(d).forEach((k) => { if (!known.has(k)) err(w, `bloc « ${k} » inconnu dans deep`); });
   }
   if (n.theme === "fin" && !n.past) warn.push(`${w} : actu finance sans exemples passés (champ past)`);
+  if (n.next) [].concat(n.next).forEach((x) => { if (!x.when || !x.what) err(w, "next : when et what obligatoires"); checkCites(w + " (après)", x.what, n.sources); });
   // « Ça s'est déjà passé » : chaque précédent est daté et sourcé.
   if (n.past) {
     if (!Array.isArray(n.past.items) || !n.past.items.length) err(w, "past : items manquant");
@@ -218,6 +219,22 @@ focus.forEach((f) => {
 });
 
 const today = news.length ? news[0].date : "—";
+// « À venir » (data/agenda.js) : dates valides, triées, sourcées ; les dates passées se retirent chaque matin.
+const agenda = ctx.window.GEOCO.agenda || [];
+const agIds = new Set();
+agenda.forEach((a, i) => {
+  const w = `agenda[${i}] ${a.id || "?"}`;
+  if (!a.id || agIds.has(a.id)) err(w, "id manquant ou en double"); agIds.add(a.id);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(a.date || "")) err(w, "date au format AAAA-MM-JJ obligatoire");
+  if (a.end && !(a.end >= a.date)) err(w, "end avant date");
+  if (!THEMES.has(a.theme)) err(w, `theme invalide « ${a.theme} »`);
+  if (a.region && !REGIONS.has(a.region)) err(w, `region invalide « ${a.region} »`);
+  if (!a.title || !a.why) err(w, "title et why obligatoires");
+  checkSources(w, a.sources); checkCites(w, a.why, a.sources);
+  if (Array.isArray(a.sources) && a.sources.length < 2 && !a.verify) warn.push(`${w} : une seule source, ajouter une 2e source ou verify`);
+  if (a.news && !news.some((n) => n.id === a.news)) warn.push(`${w} : actu liée « ${a.news} » introuvable`);
+  if ((a.end || a.date) < new Date().toISOString().slice(0, 10)) warn.push(`${w} : date passée, à retirer`);
+});
 console.log(`${news.length} actus (dernière date : ${today}, ${news.filter((n) => n.date === today).length} ce jour-là), ${dossiers.length} cours, ${culture.length} articles, ${(etudes.cas || []).length} études de cas, ${(etudes.podcast || []).length} épisodes.`);
 warn.forEach((w) => console.log("Attention : " + w));
 // Traductions : les textes pas encore traduits s'affichent en français (signalé, pas bloquant).

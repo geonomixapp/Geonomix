@@ -15,6 +15,17 @@ Elle peut être modifiée librement : la mise à jour automatique relit ce fichi
 - **Le dimanche** : en plus, un « tour du monde » de 4 à 6 pays rarement traités (Asie centrale, Pacifique, Caraïbes, Afrique australe, Balkans…).
 - **Le globe change d'un jour à l'autre** : on évite de remettre les mêmes pays que la veille, sauf fait nouveau important. Les points se placent sur la capitale ou le lieu précis (pas toujours Washington ou Pékin).
 
+## À venir : les dates qui comptent (demande de l'auteur, 31 oct. 2026)
+
+Le lecteur doit voir loin : ce qui va se passer demain, dans la semaine, dans le mois. Chaque matin, mettre à jour `data/agenda.js` :
+
+- **Retirer** les rendez-vous passés (`check-content` les signale) et **ajouter les nouveaux** trouvés en cherchant : élections, sommets (G7, G20, UE, OTAN, BRICS, APEC, COP), réunions des banques centrales (Fed, BCE, Banque d'Angleterre, Banque du Japon, banques des pays émergents), réunions de l'OPEP+, votes de budgets et de lois, entrées en vigueur (droits de douane, sanctions, accords, nouvelles règles européennes), fins de trêve ou d'ultimatum, résultats des grandes entreprises (Nvidia, Apple, TotalEnergies, LVMH…), introductions en Bourse, publications attendues (emploi américain, inflation de la zone euro, PIB chinois) quand elles peuvent faire bouger les marchés.
+- Viser **15 à 25 rendez-vous** sur les 30 prochains jours, dont **au moins 5 dans les 7 prochains jours**, mélangés entre éco, géo et finance, partout dans le monde (France et Europe compris).
+- Chaque rendez-vous : `title` clair, `why` qui dit en une ou deux phrases **ce que ça peut changer** (prix, taux, emploi, rapports de force), sourcé `[n]`, 2 sources (calendrier officiel de préférence), sinon `verify`. Si une actu du jour en parle, mettre son id dans `news`.
+- Traduire `title`, `why` (et `verify`) en anglais et en espagnol comme les actus (clés `agenda.<id>.…`).
+
+Et sur chaque actu, quand une suite est connue : le champ **`next`** (« Et après ? ») : `[{ when: "5 novembre", what: "La Banque d'Angleterre décide de son taux [3]." }]`, la prochaine étape datée (vote, sommet, échéance, décision attendue). Toujours sourcé.
+
 ## Des faits marquants, pas des statistiques (le plus important après la fiabilité)
 
 Une actu, c'est **un fait nouveau qui change quelque chose** : une décision, un accord, une rupture, une crise, une élection, un conflit, un mouvement social, un choc sur les marchés. Pas seulement « le chiffre du mois est sorti ».
