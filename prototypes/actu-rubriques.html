@@ -1,0 +1,208 @@
+<meta charset="utf-8">
+<title>Rubriques de l'Actu</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Planche : 5 façons de ranger Économie, Géopolitique et Finance dans l'Actu, avec les vraies actus et le vrai style
+   de l'appli, chaque téléphone se manipule (onglets, glisser, filtres).
+   Couleurs : celles des thèmes de l'appli (orange éco, bleu-violet géo, vert finance), sur le noir de l'appli. */
+:root { --ink: #f5f5f7; --dim: #9a9aa3; --rule: rgba(255,255,255,.12); --pick: #3ddc97; --eco: #ff8a3d; --geo: #7d7bff; --fin: #34d399; --card: #1c1c1e; color-scheme: dark; }
+body { background: #000; color: var(--ink); }
+.board { max-width: 1900px; margin: 0 auto; padding-block: 28px 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.board > h1 { font-family: "Times New Roman", Times, serif; font-size: clamp(28px, 4vw, 40px); margin: 0 0 8px; text-wrap: balance; }
+.board > p { color: var(--dim); max-width: 72ch; margin: 0 0 24px; font-size: 16px; line-height: 1.5; }
+.cols { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap: 26px; align-items: start; }
+.col { min-width: 0; }
+.col-head { padding: 0 2px 12px; border-bottom: 1px solid var(--rule); margin-bottom: 14px; min-height: 150px; }
+.col-head .k { font: 700 12px/1 var(--font); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+.col-head h2 { font-family: "Times New Roman", Times, serif; font-size: 24px; margin: 6px 0 6px; text-wrap: balance; }
+.col-head p { margin: 0; color: var(--dim); font-size: 14px; line-height: 1.45; }
+.col-head .tag { display: inline-block; margin: 8px 6px 0 0; font: 700 12px var(--font); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--rule); color: var(--dim); }
+.col-head .mine { color: #062b1c; background: var(--pick); border-color: var(--pick); }
+.phone { border: 1px solid var(--rule); border-radius: 30px; height: 760px; overflow: hidden; position: relative; background: #000; display: flex; flex-direction: column; }
+.scr { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 16px 12px 40px; scrollbar-width: none; }
+.scr::-webkit-scrollbar { display: none; }
+.ph-title { font-family: "Times New Roman", Times, serif; font-size: 30px; margin: 4px 4px 12px; }
+.phone .news-card { opacity: 1; transform: none; }
+.phone .news-card h3 { font-size: 19px; }
+.phone .news-card .summary { font-size: 15px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.lbl { font: 600 12px var(--font); color: var(--dim); text-transform: uppercase; letter-spacing: .07em; margin: 18px 4px 10px; display: flex; align-items: center; gap: 8px; }
+.lbl i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.note { font-size: 12px; color: var(--dim); margin: 14px 4px 0; line-height: 1.4; }
+button { font: inherit; }
+button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* A : trois rideaux qui glissent */
+.curtains { display: flex; gap: 0; margin: 0 -12px 12px; padding: 0 12px; border-bottom: 1px solid var(--rule); }
+.curtains button { flex: 1; background: none; border: 0; color: var(--dim); padding: 10px 4px 12px; font-weight: 600; font-size: 15px; cursor: pointer; border-bottom: 3px solid transparent; }
+.curtains button[aria-selected="true"] { color: var(--ink); border-color: var(--c); }
+.slider { display: flex; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.slide { flex: 0 0 100%; min-width: 0; padding-right: 0; }
+.viewport { overflow: hidden; margin: 0 -12px; padding: 0 12px; }
+@media (prefers-reduced-motion: reduce) { .slider { transition: none; } }
+
+/* B : fil unique, filtres en pastilles */
+.chips { display: flex; gap: 8px; overflow-x: auto; margin: 0 -12px 14px; padding: 0 12px; scrollbar-width: none; }
+.chips button { flex: none; border: 1px solid var(--rule); background: none; color: var(--ink); border-radius: 999px; padding: 7px 13px; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
+.chips button i { width: 8px; height: 8px; border-radius: 50%; }
+.chips button[aria-pressed="true"] { background: var(--ink); color: #000; }
+
+/* C : colonnes côte à côte (glisser de colonne en colonne) */
+.lanes { display: grid; grid-auto-flow: column; grid-auto-columns: 86%; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -12px; padding: 0 12px 8px; scrollbar-width: none; align-items: start; }
+.lane { scroll-snap-align: start; scroll-margin-left: 12px; background: #0e0e10; border-radius: 22px; padding: 12px; border-top: 3px solid var(--c); min-width: 0; }
+.lane h4 { margin: 2px 4px 10px; font-size: 16px; display: flex; justify-content: space-between; color: var(--c); }
+.lane h4 span { color: var(--dim); font-weight: 500; font-size: 13px; }
+.mini { background: var(--card); border-radius: 14px; padding: 11px 13px; }
+.mini + .mini { margin-top: 8px; }
+.mini p { margin: 0 0 4px; font-size: 12px; color: var(--dim); }
+.mini h5 { margin: 0; font: 600 15px/1.3 var(--font); color: var(--ink); }
+.dots { display: flex; justify-content: center; gap: 6px; margin-top: 6px; }
+.dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--rule); }
+.dots i.on { background: var(--ink); }
+
+/* D : rubriques empilées comme un journal */
+.une { border-radius: 22px; overflow: hidden; background: var(--card); margin-bottom: 4px; }
+.une .il { aspect-ratio: 340/190; background: #0f1626; }
+.une .il svg { width: 100%; height: 100%; display: block; }
+.une .b { padding: 14px 16px 16px; }
+.une h3 { font-family: "Times New Roman", Times, serif; font-size: 22px; margin: 6px 0 6px; line-height: 1.2; }
+.une .summary { margin: 0; color: var(--dim); font-size: 15px; line-height: 1.4; }
+.rub { margin-top: 22px; border-top: 2px solid var(--c); padding-top: 10px; }
+.rub-h { display: flex; align-items: baseline; justify-content: space-between; margin: 0 4px 10px; }
+.rub-h b { font-family: "Times New Roman", Times, serif; font-size: 22px; color: var(--c); }
+.rub-h span { font-size: 13px; color: var(--dim); }
+.row { display: grid; grid-template-columns: 1fr 70px; gap: 10px; padding: 10px 4px; border-bottom: 1px solid var(--rule); align-items: center; }
+.row h5 { margin: 0; font: 600 15px/1.3 var(--font); color: var(--ink); }
+.row p { margin: 3px 0 0; font-size: 12px; color: var(--dim); }
+.row .th { width: 70px; height: 70px; border-radius: 12px; overflow: hidden; background: #0f1626; }
+.row .th svg { width: 100%; height: 100%; display: block; }
+.words { display: flex; gap: 8px; overflow-x: auto; margin: 10px -12px 0; padding: 0 12px; scrollbar-width: none; }
+.words button { flex: none; background: rgba(52,211,153,.1); color: #8ff0c4; border: 1px solid rgba(52,211,153,.4); border-radius: 999px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
+.word-def { margin: 10px 4px 0; font-size: 14px; color: var(--ink); line-height: 1.45; background: var(--card); border-radius: 14px; padding: 12px 14px; }
+
+/* E : la Finance a sa propre page « Marchés » */
+.tabbar { display: flex; border-top: 1px solid var(--rule); background: #0a0a0b; }
+.tabbar button { flex: 1; background: none; border: 0; color: var(--dim); padding: 10px 0 12px; font-size: 12px; cursor: pointer; display: grid; justify-items: center; gap: 3px; }
+.tabbar button b { font-size: 18px; line-height: 1; }
+.tabbar button[aria-selected="true"] { color: var(--ink); }
+.tabbar button[aria-selected="true"].fin { color: #8ff0c4; }
+.mk-hero { border-radius: 22px; padding: 16px; background: linear-gradient(160deg, rgba(52,211,153,.16), rgba(52,211,153,.03)); border: 1px solid rgba(52,211,153,.3); }
+.mk-hero h3 { margin: 0 0 4px; font-family: "Times New Roman", Times, serif; font-size: 24px; }
+.mk-hero p { margin: 0; color: var(--dim); font-size: 14px; line-height: 1.4; }
+.mk-row { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 11px 4px; border-bottom: 1px solid var(--rule); }
+.mk-row b { font-size: 15px; } .mk-row small { color: var(--dim); font-size: 12px; grid-column: 1 / -1; }
+.mk-row em { font-style: normal; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--dim); }
+.fiches { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.fiche { background: var(--card); border-radius: 16px; padding: 12px; min-height: 92px; display: flex; flex-direction: column; justify-content: space-between; }
+.fiche b { font-size: 14px; line-height: 1.3; }
+.fiche span { font-size: 11px; color: #f5c86b; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+
+.verdict { margin-top: 36px; border-top: 1px solid var(--rule); padding-top: 20px; max-width: 74ch; font-size: 16px; line-height: 1.55; }
+.verdict h2 { font-family: "Times New Roman", Times, serif; font-size: 26px; margin: 0 0 8px; }
+.verdict p { color: var(--dim); margin: 0 0 10px; } .verdict b { color: var(--ink); }
+</style>
+<div class="board">
+  <h1>Ranger l'économie, la géopolitique et la finance</h1>
+  <p>Cinq façons d'organiser l'Actu, avec les vraies actus du 31 octobre. Chaque téléphone se manipule : touche les onglets, fais glisser, filtre. Il n'y a pas encore d'actu classée Finance : pour l'exemple, celles sur la Bourse et les banques (Dangote, banques vietnamiennes, banques britanniques) sont mises en Finance.</p>
+  <div class="cols">
+    <section class="col"><div class="col-head"><span class="k">A</span><h2>Trois rideaux</h2><p>Économie, Géopolitique, Finance : un rideau chacun, on glisse de l'un à l'autre. Très clair, mais on ne voit qu'un thème à la fois.</p><span class="tag">Séparé</span><span class="tag">Rideaux</span></div><div class="phone" id="pA"></div></section>
+    <section class="col"><div class="col-head"><span class="k">B</span><h2>Un seul fil, trié par couleur</h2><p>Tout mélangé par ordre d'importance ; la couleur et la pastille disent le thème, les filtres en haut isolent un thème d'un toucher.</p><span class="tag">Mélangé</span><span class="tag">Sans rideau</span></div><div class="phone" id="pB"></div></section>
+    <section class="col"><div class="col-head"><span class="k">C</span><h2>Trois colonnes</h2><p>Comme un tableau : une colonne par thème, côte à côte sur ordinateur, qu'on fait défiler sur le côté sur téléphone. On voit tout de suite combien il y a d'actus dans chaque thème.</p><span class="tag">Séparé</span><span class="tag">Colonnes</span></div><div class="phone" id="pC"></div></section>
+    <section class="col"><div class="col-head"><span class="k">D</span><h2>Le journal à rubriques</h2><p>La une du jour en grand (tous thèmes), puis une rubrique par thème, l'une sous l'autre, avec son filet de couleur. La Finance a ses mots de la Bourse à toucher.</p><span class="tag">Mélangé puis séparé</span><span class="tag">Sans rideau</span></div><div class="phone" id="pD"></div></section>
+    <section class="col"><div class="col-head"><span class="k">E</span><h2>Une page « Marchés » à part</h2><p>L'Actu garde l'économie et la géopolitique ensemble. La Finance devient un vrai onglet de l'appli : actus finance, « côté marchés », mots de la Bourse et fiches de révision Geonomix+.</p><span class="tag">Finance séparée</span><span class="tag mine">Mon choix</span></div><div class="phone" id="pE"></div></section>
+  </div>
+  <section class="verdict">
+    <h2>Ce que j'en pense</h2>
+    <p><b>Je choisirais E.</b> Tu veux plus de finance, avec des cours, des fiches de révision et du contenu payant. Ça ne tient pas dans un simple filtre : la finance mérite sa page, comme les Conflits ou les Chiffres. Et l'Actu garde ce qui fait Geonomix, l'économie et la géopolitique ensemble, chacune avec sa couleur.</p>
+    <p><b>D est un bon second choix</b> si tu préfères tout garder sur une seule page : on lit la une, puis on descend rubrique par rubrique, comme dans un journal.</p>
+    <p><b>A et C séparent bien</b>, mais elles cachent le lien entre les thèmes, alors qu'une même actu (un gisement de gaz, des sanctions) est souvent les trois à la fois. <b>B</b> est le plus simple, mais c'est presque ce qu'on a déjà.</p>
+  </section>
+</div>
+<script src="data/content.js"></script>
+<script src="data/countries.js"></script>
+<script src="data/news.js"></script>
+<script>
+window.GeocoGlobe = { contains(f, x, y) {
+  const polys = f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates;
+  return polys.some((p) => { let inside = false; const r = p[0]; for (let i = 0, j = r.length - 1; i < r.length; j = i++) { const [xi, yi] = r[i], [xj, yj] = r[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside; } return inside; });
+} };
+</script>
+<script src="illus.js"></script>
+<script>
+const day = window.GEOCO.news[0].date;
+const FIN_DEMO = /Bourse|banques/i;
+const NEWS = window.GEOCO.news.filter((n) => n.date === day).map((n) => Object.assign({}, n, { theme: FIN_DEMO.test(n.title) ? "fin" : n.theme }));
+const TERMS = (window.GEOCO.glossary || []).filter((g) => g.cat === "fin");
+const T = { eco: ["Économie", "var(--eco)"], geo: ["Géopolitique", "var(--geo)"], fin: ["Finance", "var(--fin)"], mix: ["Éco & Géopo", "#c9a8ff"] };
+const isIn = (n, t) => n.theme === t || (n.theme === "mix" && t !== "fin");
+const of = (t) => NEWS.filter((n) => isIn(n, t));
+const chip = (t) => `<span class="theme-chip ${t}"><i aria-hidden="true"></i>${T[t][0]}</span>`;
+const card = (n) => `<a class="news-card ${n.theme}"><p class="eyebrow">${chip(n.theme)}${n.region ? ` · ${n.region}` : ""}</p><h3>${n.title}</h3><p class="summary">${n.summary}</p></a>`;
+const mini = (n) => `<div class="mini"><p>${n.region || ""}${n.verify ? " · ⚠️" : ""}</p><h5>${n.title}</h5></div>`;
+let prev = null; const svg = (n, c) => GeocoIllus.svg(n, (prev = GeocoIllus.pick(n, prev)), c);
+const row = (n) => `<div class="row"><div><h5>${n.title}</h5><p>${n.region || ""}</p></div><div class="th">${svg(n, true)}</div></div>`;
+const $ = (id) => document.getElementById(id);
+
+// A : rideaux
+{
+  const order = ["eco", "geo", "fin"];
+  $("pA").innerHTML = `<div class="scr"><p class="ph-title">L'actu.</p>
+    <div class="curtains" role="tablist">${order.map((t, i) => `<button role="tab" aria-selected="${i === 0}" style="--c:${T[t][1]}" data-i="${i}">${T[t][0]} <small style="color:var(--dim)">${of(t).length}</small></button>`).join("")}</div>
+    <div class="viewport"><div class="slider">${order.map((t) => `<div class="slide"><div class="stack">${of(t).map(card).join("")}</div></div>`).join("")}</div></div></div>`;
+  const tabs = $("pA").querySelectorAll(".curtains button"), slider = $("pA").querySelector(".slider");
+  const go = (i) => { tabs.forEach((b, k) => b.setAttribute("aria-selected", k === i)); slider.style.transform = `translateX(-${i * 100}%)`; slider.querySelectorAll(".slide").forEach((s, k) => s.style.height = k === i ? "" : "0"); };
+  tabs.forEach((b) => b.onclick = () => go(+b.dataset.i));
+  let x0 = null, cur = 0;
+  slider.addEventListener("pointerdown", (e) => { x0 = e.clientX; });
+  slider.addEventListener("pointerup", (e) => { if (x0 == null) return; const dx = e.clientX - x0; x0 = null; cur = +[...tabs].findIndex((b) => b.getAttribute("aria-selected") === "true"); if (Math.abs(dx) > 50) go(Math.max(0, Math.min(2, cur + (dx < 0 ? 1 : -1)))); });
+  go(0);
+}
+// B : un fil, des filtres
+{
+  const f = [["all", "Tout", ""], ["eco", "Économie", "var(--eco)"], ["geo", "Géopolitique", "var(--geo)"], ["fin", "Finance", "var(--fin)"]];
+  $("pB").innerHTML = `<div class="scr"><p class="ph-title">L'actu.</p><div class="chips">${f.map(([k, l, c], i) => `<button aria-pressed="${i === 0}" data-k="${k}">${c ? `<i style="background:${c}"></i>` : ""}${l}</button>`).join("")}</div><div class="stack" id="bList"></div></div>`;
+  const draw = (k) => { $("bList").innerHTML = (k === "all" ? NEWS : of(k)).map(card).join(""); };
+  $("pB").querySelectorAll(".chips button").forEach((b) => b.onclick = () => { $("pB").querySelectorAll(".chips button").forEach((x) => x.setAttribute("aria-pressed", x === b)); draw(b.dataset.k); });
+  draw("all");
+}
+// C : colonnes
+{
+  const order = ["geo", "eco", "fin"];
+  $("pC").innerHTML = `<div class="scr"><p class="ph-title">L'actu.</p><div class="lanes">${order.map((t) => `<div class="lane" style="--c:${T[t][1]}"><h4>${T[t][0]} <span>${of(t).length} actus</span></h4>${of(t).map(mini).join("")}</div>`).join("")}</div><div class="dots">${order.map((_, i) => `<i class="${i === 0 ? "on" : ""}"></i>`).join("")}</div><p class="note">Fais glisser vers la gauche pour passer à la colonne suivante.</p></div>`;
+  const lanes = $("pC").querySelector(".lanes"), dots = $("pC").querySelectorAll(".dots i");
+  lanes.addEventListener("scroll", () => { const i = Math.round(lanes.scrollLeft / (lanes.clientWidth * 0.86 + 10)); dots.forEach((d, k) => d.classList.toggle("on", k === i)); }, { passive: true });
+}
+// D : journal à rubriques
+{
+  prev = null;
+  const top = NEWS[0];
+  const rub = (t, extra = "") => `<div class="rub" style="--c:${T[t][1]}"><div class="rub-h"><b>${T[t][0]}</b><span>${of(t).length} actus</span></div>${extra}${of(t).filter((n) => n !== top).slice(0, 4).map(row).join("")}</div>`;
+  const words = `<div class="words">${TERMS.slice(0, 10).map((g) => `<button data-w="${g.id}">${g.term}</button>`).join("")}</div><div class="word-def" hidden></div>`;
+  $("pD").innerHTML = `<div class="scr"><p class="ph-title">L'actu.</p><p class="lbl">À la une</p>
+    <div class="une"><div class="il">${svg(top)}</div><div class="b"><p class="eyebrow">${chip(top.theme)}${top.region ? ` · ${top.region}` : ""}</p><h3>${top.title}</h3><p class="summary">${top.summary}</p></div></div>
+    ${rub("geo")}${rub("eco")}${rub("fin", words)}</div>`;
+  const def = $("pD").querySelector(".word-def");
+  $("pD").querySelectorAll(".words button").forEach((b) => b.onclick = () => { const g = TERMS.find((x) => x.id === b.dataset.w); def.hidden = false; def.innerHTML = `<b>${g.term}</b> : ${g.def}`; });
+}
+// E : page Marchés à part, barre d'onglets de l'appli en bas
+{
+  const fin = of("fin");
+  const actu = `<p class="ph-title">L'actu.</p><p class="note" style="margin:0 4px 12px">Économie et géopolitique ensemble, chacune sa couleur.</p><div class="stack">${NEWS.filter((n) => n.theme !== "fin").map(card).join("")}</div>`;
+  const marches = `<p class="ph-title" style="color:#8ff0c4">Marchés.</p>
+    <div class="mk-hero"><h3>Ce qui a bougé</h3><p>Les entreprises et les Bourses touchées par l'actu du jour, expliquées.</p></div>
+    <p class="lbl"><i style="background:var(--fin)"></i>Actus finance</p><div class="stack">${fin.map(card).join("")}</div>
+    <p class="lbl">Côté marchés</p>
+    <div class="mk-row"><b>Dangote Refinery</b><em>IPO</em><small>Exemple de ligne : l'entreprise, sa variation et pourquoi elle est concernée, toujours sourcé.</small></div>
+    <p class="lbl">Comprendre les marchés</p><div class="words" style="margin-top:0">${TERMS.slice(0, 10).map((g) => `<button data-w="${g.id}">${g.term}</button>`).join("")}</div><div class="word-def" hidden></div>
+    <p class="lbl">Fiches de révision</p>
+    <div class="fiches"><div class="fiche"><b>L'ETF de l'intérieur : réplication, frais, écart de suivi</b><span>Geonomix+</span></div><div class="fiche"><b>Comment marche le système financier</b><span>Geonomix+</span></div><div class="fiche"><b>Investir dans les crises : 1929, 2000, 2008, 2020</b><span>Geonomix+</span></div><div class="fiche"><b>Obligations et taux : la balançoire</b><span>Geonomix+</span></div></div>`;
+  $("pE").innerHTML = `<div class="scr" id="eScr">${actu}</div><div class="tabbar" role="tablist"><button role="tab" aria-selected="true" data-v="actu"><b>◉</b>Actu</button><button role="tab" aria-selected="false" class="fin" data-v="marches"><b>↗</b>Marchés</button><button role="tab" aria-selected="false" disabled><b>✦</b>Cours</button><button role="tab" aria-selected="false" disabled><b>⚔</b>Duel</button></div>`;
+  const scr = $("eScr");
+  const bindWords = () => { const def = scr.querySelector(".word-def"); scr.querySelectorAll(".words button").forEach((b) => b.onclick = () => { const g = TERMS.find((x) => x.id === b.dataset.w); def.hidden = false; def.innerHTML = `<b>${g.term}</b> : ${g.def}`; }); };
+  $("pE").querySelectorAll(".tabbar button[data-v]").forEach((b) => b.onclick = () => {
+    $("pE").querySelectorAll(".tabbar button").forEach((x) => x.setAttribute("aria-selected", x === b));
+    scr.innerHTML = b.dataset.v === "actu" ? actu : marches; scr.scrollTop = 0; bindWords();
+  });
+}
+</script>
