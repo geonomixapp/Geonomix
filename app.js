@@ -253,7 +253,31 @@
 
   // Les actus de la région du lecteur passent en premier (à date égale).
   const isNear = (n) => n.region === I18N.region;
-  const nearFirst = (list) => list.map((n, i) => [n, i]).sort((a, b) => (b[0].date > a[0].date) - (b[0].date < a[0].date) || isNear(b[0]) - isNear(a[0]) || a[1] - b[1]).map((x) => x[0]);
+  // Échelles d'importance (demande de l'auteur, 31 oct. 2026) : à date égale, une actu monte si elle se passe dans la
+  // zone du lecteur (Europe, Amérique du Nord, Amérique latine, Asie, Océanie, Moyen-Orient, Afrique), si elle la touche
+  // (champ `zones`), si elle a un effet mondial (`impact: "monde"`, ex. Ormuz) ou si elle concerne une grande puissance
+  // ou un grand voisin (pour l'Europe : États-Unis, Chine… ; pour l'Amérique latine : États-Unis…). Le reste descend.
+  const NEIGHBOURS = { "Europe": ["Amérique du Nord", "Asie"], "Amérique du Nord": ["Europe", "Asie", "Amérique latine"], "Amérique latine": ["Amérique du Nord", "Europe"],
+    "Asie": ["Amérique du Nord", "Océanie", "Europe"], "Océanie": ["Asie", "Amérique du Nord"], "Moyen-Orient": ["Europe", "Asie"], "Afrique": ["Europe", "Moyen-Orient"] };
+  const POWERS = /États-Unis|Washington|Chine|Pékin|Japon|Tokyo|Inde|New Delhi|Russie|Moscou|Allemagne|Berlin|Royaume-Uni|Londres|Bruxelles|Canada|Ottawa/;
+  const zoneAt = (n, g) => {
+    const [lng, lat] = g.coords || [0, 0];
+    if (n.region === "Amériques") return lat > 24 ? "Amérique du Nord" : "Amérique latine";
+    if (n.region === "Asie" && lat < -10 && lng > 110) return "Océanie";
+    return n.region;
+  };
+  const homeZones = (n) => new Set((n.geo && n.geo.length ? n.geo.map((g) => zoneAt(n, g)) : [n.region]).filter(Boolean));
+  function relevance(n, Z = I18N.zone || I18N.region) {
+    const home = homeZones(n);
+    let s = 0;
+    if (home.has(Z)) s += 4;
+    if ((n.zones || []).includes(Z)) s += 3;
+    if (n.impact === "monde") s += 4;
+    if ((NEIGHBOURS[Z] || []).some((z) => home.has(z) || (n.zones || []).includes(z))) s += 1;
+    if ((n.geo || []).some((g) => POWERS.test(g.name || ""))) s += 1;
+    return s;
+  }
+  const nearFirst = (list) => list.map((n, i) => [n, i, relevance(n)]).sort((a, b) => (b[0].date > a[0].date) - (b[0].date < a[0].date) || b[2] - a[2] || a[1] - b[1]).map((x) => x[0]);
 
   // Pastille de thème des actus : orange = économie, bleu-violet = géopolitique, les deux couleurs = les deux.
   const themeChip = (t) => `<span class="theme-chip ${t}"><i aria-hidden="true"></i>${THEMES[t]}</span>`;

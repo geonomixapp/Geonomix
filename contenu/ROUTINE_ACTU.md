@@ -15,6 +15,16 @@ Elle peut être modifiée librement : la mise à jour automatique relit ce fichi
 - **Le dimanche** : en plus, un « tour du monde » de 4 à 6 pays rarement traités (Asie centrale, Pacifique, Caraïbes, Afrique australe, Balkans…).
 - **Le globe change d'un jour à l'autre** : on évite de remettre les mêmes pays que la veille, sauf fait nouveau important. Les points se placent sur la capitale ou le lieu précis (pas toujours Washington ou Pékin).
 
+## Échelles d'importance : chaque lecteur voit d'abord ce qui le touche (demande de l'auteur, 31 oct. 2026)
+
+L'appli classe les actus selon la zone du lecteur (deviné d'après son fuseau horaire) : **Europe, Amérique du Nord, Amérique latine, Asie, Océanie, Moyen-Orient, Afrique**. À date égale passent d'abord les actus de sa zone, puis celles qui la touchent, celles qui ont un effet mondial, celles des grandes puissances et des grands voisins ; le reste descend. Pour que ça marche :
+
+- **Champ `zones`** : les zones que l'actu touche directement, en plus de l'endroit où elle se passe (ex. le Canada qui se rapproche de l'UE : `["Amérique du Nord", "Europe"]` ; un accord Chine-Brésil : `["Asie", "Amérique latine"]`).
+- **Champ `impact: "monde"`** quand l'effet est mondial et direct sur nos économies : Ormuz, le prix du pétrole, la Fed, une guerre commerciale entre grandes puissances, un krach. À réserver à 2 ou 3 actus par jour au plus.
+- **Assez d'actus pour chaque zone**, pour qu'un lecteur en Argentine, au Canada ou au Japon ait aussi ses actus en tête : chaque jour au moins **2 actus d'Amérique latine** (peso argentin, relations Argentine-Chili, Brésil, Mexique…), **2 d'Amérique du Nord** (États-Unis, Canada), **2 d'Asie** (Chine d'abord, Japon, Inde, Corée), 1 d'Océanie si possible, en plus de l'Europe, du Moyen-Orient et de l'Afrique.
+- **Pour un lecteur européen**, l'ordre d'importance est : Europe (et France), puis Chine et Asie, États-Unis et Amérique du Nord, puis le reste, sauf effet direct sur nos économies (Ormuz, pétrole, gaz) qui remonte avec `impact: "monde"`.
+- **Ne jamais rater les grandes actus** qui concernent l'Europe, l'Amérique du Nord ou la Chine, même si les grands médias en parlent beaucoup (ex. le Canada qui veut devenir membre associé de l'UE).
+
 ## À venir : les dates qui comptent (demande de l'auteur, 31 oct. 2026)
 
 Le lecteur doit voir loin : ce qui va se passer demain, dans la semaine, dans le mois. Chaque matin, mettre à jour `data/agenda.js` :
@@ -86,6 +96,8 @@ Copier une actu existante de `data/news.js` et remplir :
 - `sources` : `{ short, name, url }` (au moins 2)
 - `markets` (facultatif, voir « Le côté finance ») : `{ text: "phrase sourcée (facultatif)", items: [{ name: "TotalEnergies", ticker: "TTE", move: "+3,1 %", why: "Opère le gisement avec 40 % des parts [2] ; l'action a gagné 3,1 % à Paris le jour de l'annonce [3]." }] }` ; une variation (`move`) doit être sourcée dans `why`
 - `past` (obligatoire pour une actu `fin`, facultatif ailleurs) : `{ title: "phrase d'introduction (facultatif)", items: [{ when: "2008", what: "Le précédent, daté et chiffré [4].", lesson: "Ce qu'il a donné pour les marchés ou les investisseurs [5]." }] }` ; chaque `what` est sourcé (les chiffres historiques aussi, jamais de mémoire)
+- `zones` (facultatif) : zones touchées en plus du lieu (« Europe », « Amérique du Nord », « Amérique latine », « Asie », « Océanie », « Moyen-Orient », « Afrique ») ; `impact: "monde"` (facultatif) si l'effet est mondial et direct
+- `next` (facultatif) : `[{ when, what }]`, la prochaine étape datée et sourcée
 - `verify` (facultatif) : la raison si la source est unique ou fragile (voir « Fiabilité »)
 
 Les nouvelles actus se placent **en haut** du tableau. Le globe de l'accueil affiche les actus de la date la plus récente.

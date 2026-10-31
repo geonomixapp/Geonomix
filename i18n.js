@@ -52,6 +52,19 @@
     return "Europe";
   }
   let region = detectRegion();
+  // Zone plus fine que la région, pour classer les actus par importance (demande de l'auteur, 31 oct. 2026 :
+  // un lecteur en Argentine ne voit pas les mêmes actus en tête qu'un lecteur en Europe).
+  function detectZone() {
+    let tz = "";
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+    const cc = (prefs[0].split("-")[1] || "").toUpperCase();
+    if (region === "Amériques") {
+      if (/^America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage|Juneau|Sitka|Nome|Adak|Boise|Detroit|Indiana|Kentucky|North_Dakota|Menominee|Metlakatla|Yakutat|Toronto|Vancouver|Montreal|Edmonton|Winnipeg|Halifax|Regina|St_Johns|Moncton|Glace_Bay|Goose_Bay|Whitehorse|Dawson|Yellowknife|Iqaluit|Rankin_Inlet|Resolute|Cambridge_Bay|Inuvik|Swift_Current|Creston|Fort_Nelson|Atikokan|Thunder_Bay|Nipigon|Rainy_River|Pangnirtung|Blanc-Sablon|Dawson_Creek)/.test(tz) || (!tz && /^(US|CA)$/.test(cc))) return "Amérique du Nord";
+      return "Amérique latine";
+    }
+    if (region === "Asie" && (/^(Australia\/|Pacific\/(Auckland|Fiji|Port_Moresby|Noumea|Tahiti|Guam|Chatham))/.test(tz) || (!tz && /^(AU|NZ)$/.test(cc)))) return "Océanie";
+    return region;
+  }
 
   document.documentElement.lang = lang;
   // Le fichier de langue est chargé tout de suite, avant les données et app.js.
@@ -190,6 +203,7 @@
   window.GeocoI18n = {
     LANGS, REGIONS, lang, locale,
     get region() { return region; },
+    get zone() { return detectZone(); },
     setLang(l) { put(LKEY, l === detectLangDefault() ? null : l); location.reload(); },
     setRegion(r) { region = r; put(RKEY, r); },
     applyContent, countryName, translate, t, watch,

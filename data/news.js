@@ -17,6 +17,98 @@
 window.GEOCO = window.GEOCO || {};
 window.GEOCO.news = [
   {
+    "id": "2026-10-31-canada-ue-membre-associe",
+    "date": "2026-10-31",
+    "region": "Amériques",
+    "theme": "mix",
+    "zones": [
+      "Amérique du Nord",
+      "Europe"
+    ],
+    "geo": [
+      {
+        "name": "Montréal, Canada",
+        "label": "Canada",
+        "coords": [
+          -73.57,
+          45.5
+        ]
+      },
+      {
+        "name": "Bruxelles, Belgique",
+        "label": "UE",
+        "coords": [
+          4.35,
+          50.85
+        ]
+      }
+    ],
+    "title": "Le Canada veut devenir le premier « membre associé » de l'Union européenne d'ici juin 2027",
+    "summary": "Au sommet UE-Canada de Montréal, Mark Carney fixe un objectif : conclure d'ici juin 2027 les négociations sur un lien inédit avec l'Union, à mi-chemin entre partenaire et membre.",
+    "points": [
+      "Lors du sommet UE-Canada à Montréal, le Premier ministre Mark Carney a dit vouloir conclure d'ici juin 2027 les négociations pour faire du Canada le premier « membre associé » de l'Union européenne [1][2].",
+      "Il parle du « partenariat le plus profond possible sans adhésion, à cause de notre géographie » ; le mot « associé » ne figure pourtant pas dans la déclaration finale du sommet, l'Allemagne s'y étant opposée [2][3].",
+      "L'idée vient d'Ursula von der Leyen, présidente de la Commission européenne, qui l'a proposée le 16 septembre dans son discours sur l'état de l'Union [4]."
+    ],
+    "why": [
+      "À retenir : c'est un statut qui n'existe pas encore. Il faudra l'inventer, le faire accepter par les 27 pays de l'Union, et le Parlement canadien devra voter [2][3].",
+      "Pour le Canada, c'est une façon de moins dépendre de son grand voisin américain, en pleine guerre commerciale avec Washington [3]. Pour l'Europe, c'est un allié de plus au moment où ses relations avec les États-Unis se tendent [3]. Un membre associé n'aurait en revanche ni citoyenneté européenne, ni libre circulation, ni commissaire, ni droit de vote dans les institutions de l'Union [5]."
+    ],
+    "forMe": "Si le projet aboutit, les échanges entre l'Europe et le Canada deviendraient encore plus simples : produits, études, travail, défense. Et c'est un signe de plus que les alliances se redessinent face à la politique commerciale américaine [3][5].",
+    "next": [
+      {
+        "when": "Juin 2027",
+        "what": "Objectif fixé par Mark Carney pour conclure les négociations [2]."
+      }
+    ],
+    "figures": [
+      {
+        "value": "1er",
+        "label": "pays à devenir « membre associé » de l'UE, si le projet aboutit",
+        "src": 2
+      },
+      {
+        "value": "juin 2027",
+        "label": "objectif pour conclure les négociations",
+        "src": 2
+      },
+      {
+        "value": "27",
+        "label": "pays de l'UE qui devront dire oui",
+        "src": 3
+      }
+    ],
+    "culture": [],
+    "dossiers": [],
+    "sources": [
+      {
+        "short": "CBC",
+        "name": "CBC News, « Carney says Canada is working to become an 'associate member' as he hosts EU leaders in Montreal » (octobre 2026)",
+        "url": "https://www.cbc.ca/news/politics/european-union-canada-associate-member-von-der-leyen-9.7400922"
+      },
+      {
+        "short": "Euronews",
+        "name": "Euronews, « Canada aims to become EU's first 'associate member' by June 2027, Carney says » (30 octobre 2026)",
+        "url": "https://www.euronews.com/2026/10/30/canada-aims-to-become-eus-first-associate-member-by-june-2027-carney-says"
+      },
+      {
+        "short": "Time",
+        "name": "Time, « Carney Announces Canada and European Union Partnership » (30 octobre 2026)",
+        "url": "https://time.com/article/2026/10/30/canada-eu-membership-associate-partnership-us-trade-war/"
+      },
+      {
+        "short": "Al Jazeera",
+        "name": "Al Jazeera, « EU chief von der Leyen proposes 'associate member' status for Canada » (16 septembre 2026)",
+        "url": "https://www.aljazeera.com/news/2026/9/16/eu-chief-von-der-leyen-proposes-associate-member-status-for-canada"
+      },
+      {
+        "short": "Euronews",
+        "name": "Euronews, « Que signifie pour un pays être membre associé de l'UE ? » (30 septembre 2026)",
+        "url": "https://fr.euronews.com/2026/09/30/que-signifie-pour-un-pays-etre-membre-associe-de-lue"
+      }
+    ]
+  },
+  {
     "id": "2026-10-31-france-pib-recule-t3",
     "date": "2026-10-31",
     "region": "Europe",
@@ -591,6 +683,7 @@ window.GEOCO.news = [
   {
     "id": "2026-10-31-ormuz-petroliers-mines-iran",
     "date": "2026-10-31",
+    "impact": "monde",
     "region": "Moyen-Orient",
     "theme": "geo",
     "verify": "Le niveau exact du Brent diffère selon les sources (plus de 117 $ pour CNBC, 112 $ pour Trading Economics) et les mines sont une affirmation iranienne démentie par l'armée américaine.",

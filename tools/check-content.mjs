@@ -68,6 +68,9 @@ news.forEach((n, i) => {
     Object.keys(d).forEach((k) => { if (!known.has(k)) err(w, `bloc « ${k} » inconnu dans deep`); });
   }
   if (n.theme === "fin" && !n.past) warn.push(`${w} : actu finance sans exemples passés (champ past)`);
+  const ZONES = ["Europe", "Amérique du Nord", "Amérique latine", "Asie", "Océanie", "Moyen-Orient", "Afrique"];
+  (n.zones || []).forEach((z) => { if (!ZONES.includes(z)) err(w, `zone inconnue « ${z} »`); });
+  if (n.impact != null && n.impact !== "monde") err(w, `impact : seulement "monde"`);
   if (n.next) [].concat(n.next).forEach((x) => { if (!x.when || !x.what) err(w, "next : when et what obligatoires"); checkCites(w + " (après)", x.what, n.sources); });
   // « Ça s'est déjà passé » : chaque précédent est daté et sourcé.
   if (n.past) {
