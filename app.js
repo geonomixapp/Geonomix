@@ -309,11 +309,12 @@
       </a>`;
   }
   function mosaicHTML(list, from = 0) {
-    let prev = null;
+    // Jamais la même forme d'illustration que les deux grandes cartes d'avant (demande de l'auteur : varier).
+    const seen = [];
     return list.map((n, i) => {
       const size = MOSAIC[(from + i) % MOSAIC.length];
-      const kind = window.GeocoIllus ? window.GeocoIllus.pick(n, prev) : null;
-      if (size === "big" || size === "tall") prev = kind;
+      const kind = window.GeocoIllus ? window.GeocoIllus.pick(n, seen.slice(-2)) : null;
+      if (size === "big" || size === "tall") seen.push(kind);
       return mosaicCard(n, size, kind);
     }).join("");
   }
@@ -1149,7 +1150,24 @@
   }
 
   // ---------- Actu du jour ----------
-  let actuTheme = "all", actuRegion = "all";
+  // Trois rideaux (choix de l'auteur, 31 oct. 2026) : Économie, Géopolitique, Finance (Geonomix+). Les actus « éco et
+  // géopo » sont dans les deux premiers. Chaque rideau s'ouvre sur une carte du monde où ses pays s'allument.
+  const CURTAINS = [["eco", "Économie"], ["geo", "Géopolitique"], ["fin", "Finance"]];
+  let actuTheme = "eco", actuRegion = "all";
+  const inCurtain = (n, t) => n.theme === t || (n.theme === "mix" && t !== "fin");
+  function curtainCover(list, t) {
+    if (!window.GEOCO_COUNTRIES || !window.GeocoGlobe) return "";
+    const W = 360, H = 170, X = (lon) => (lon + 180) / 360 * W, Y = (lat) => (78 - Math.max(-58, Math.min(78, lat))) / 136 * H;
+    curtainCover.land = curtainCover.land || window.GEOCO_COUNTRIES.features.filter((f) => f.id !== "010").map((f) => [f,
+      (f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates).map((p) => "M" + p[0].map(([x, y]) => `${X(x).toFixed(1)},${Y(y).toFixed(1)}`).join("L") + "Z").join("")]);
+    const pts = list.flatMap((n) => n.geo || []).map((g) => g.coords).filter(Boolean);
+    const lit = new Set(curtainCover.land.filter(([f]) => pts.some(([x, y]) => window.GeocoGlobe.contains(f, x, y))).map(([f]) => f.id));
+    const label = CURTAINS.find((c) => c[0] === t)[1];
+    return `<div class="cur-cover ${t}"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${I18N.t(label)}">
+      ${curtainCover.land.map(([f, d]) => `<path class="cl${lit.has(f.id) ? " on" : ""}" d="${d}"/>`).join("")}
+      ${pts.map(([x, y]) => `<circle class="halo" cx="${X(x)}" cy="${Y(y)}" r="4"/><circle class="pt" cx="${X(x)}" cy="${Y(y)}" r="1.6"/>`).join("")}</svg>
+      <p class="cur-cap"><b>${I18N.t(label)}</b><span>${I18N.t("{n} actus").replace("{n}", list.length)} · ${I18N.t("{n} pays").replace("{n}", lit.size)}</span></p></div>`;
+  }
   const REGIONS = ["Europe", "Amériques", "Moyen-Orient", "Afrique", "Asie"];
 
   // Onglet Finance de l'Actu (demande de l'auteur, 31 oct. 2026) : « Comprendre les marchés », les mots de la
@@ -1212,10 +1230,12 @@
             </span>
           </button>`;
         }).join("")}
-        ${max && items.length > max ? `<a class="more-link" href="#/actu">${I18N.t("Tout l'agenda")} ›</a>` : ""}
+        ${max && items.length > max ? `<button class="more-btn ag-more" type="button">${I18N.t("Tout l'agenda")} (${items.length})</button>` : ""}
       </div>`;
   }
   function bindAgenda(root) {
+    const more = root.querySelector(".ag-more");
+    if (more) more.addEventListener("click", () => { const box = more.closest("#ag-box") || more.parentElement.parentElement; box.innerHTML = agendaHTML(); bindAgenda(box); });
     root.querySelectorAll(".ag-item").forEach((b) => b.addEventListener("click", (e) => {
       if (e.target.closest("a")) return;
       b.setAttribute("aria-expanded", b.getAttribute("aria-expanded") !== "true");
@@ -1243,13 +1263,16 @@
       ${agenda.length ? `<section class="wrap agenda-wrap" aria-labelledby="ag-title">
         <h2 class="title reveal" id="ag-title">${I18N.t("À venir.")}</h2>
         <p class="copy reveal">${I18N.t("Les dates qui vont compter : demain, cette semaine, ce mois-ci.")}</p>
-        <div class="reveal">${agendaHTML()}</div>
+        <div class="reveal" id="ag-box">${agendaHTML(4)}</div>
       </section>` : ""}
 
       <section class="wrap actu-days">
         <h2 class="title reveal">L'actu.</h2>
         <div class="filters reveal">
-          ${segmented([["all", "Tout"], ["eco", "Économie"], ["geo", "Géopolitique"], ["fin", "Finance"]], actuTheme, "atheme").replace("<div class=\"segmented\"", "<div class=\"segmented themed\"")}
+          <div class="curtains" role="tablist" aria-label="${I18N.t("Rubriques")}">
+            ${CURTAINS.map(([k, l]) => `<button role="tab" class="cur-${k}" data-atheme="${k}" aria-selected="${actuTheme === k}"><i aria-hidden="true"></i>${I18N.t(l)}${k === "fin" && !isPlus() ? " 🔒" : ""}<small></small></button>`).join("")}
+            <span class="cur-bar" aria-hidden="true"></span>
+          </div>
           <div class="chips-row" role="group" aria-label="Filtrer par région">
             ${[["all", "Monde"], ...REGIONS.map((r) => [r, r])].map(([k, l]) => `<button class="chip-btn" data-aregion="${k}" aria-pressed="${actuRegion === k}">${l}</button>`).join("")}
           </div>
@@ -1259,12 +1282,18 @@
     `;
     bindAgenda(app);
     function drawList() {
-      const list = news.filter((n) =>
-        (actuTheme === "all" || n.theme === actuTheme || (n.theme === "mix" && actuTheme !== "fin") || (n.theme === "fin" && actuTheme === "eco")) &&
-        (actuRegion === "all" || n.region === actuRegion));
+      const list = news.filter((n) => inCurtain(n, actuTheme) && (actuRegion === "all" || n.region === actuRegion));
+      const tabs = app.querySelectorAll(".curtains [data-atheme]");
+      tabs.forEach((b, i) => {
+        b.setAttribute("aria-selected", b.dataset.atheme === actuTheme);
+        b.querySelector("small").textContent = news.filter((n) => inCurtain(n, b.dataset.atheme) && n.date === (news[0] || {}).date).length || "";
+        if (b.dataset.atheme === actuTheme) app.querySelector(".cur-bar").style.transform = `translateX(${i * 100}%)`;
+      });
+      app.querySelector(".cur-bar").className = `cur-bar ${actuTheme}`;
       const sorted = nearFirst(list), STEP = 24;
       const box = app.querySelector("#actu-list");
-      const intro = actuTheme === "fin" ? marchesHTML() : "";
+      const today = news.filter((n) => inCurtain(n, actuTheme) && n.date === (news[0] || {}).date);
+      const intro = curtainCover(today.length ? today : list.slice(0, 15), actuTheme) + (actuTheme === "fin" ? marchesHTML() : "");
       if (!sorted.length) { box.innerHTML = intro + `<p class="empty">${I18N.t("Aucune actu pour ce filtre.")}</p>`; bindMarches(box); return; }
       box.innerHTML = intro + `<div class="mosaic">${mosaicHTML(sorted.slice(0, STEP))}</div>${sorted.length > STEP ? `<p class="mosaic-more"><button class="more-btn" type="button">${I18N.t("Voir les actus d'avant")}</button></p>` : ""}`;
       let shown = STEP;
@@ -1276,11 +1305,18 @@
       app.querySelectorAll("#actu-list .reveal").forEach((el) => el.classList.add("in"));
       bindMarches(box);
     }
-    app.querySelectorAll("[data-atheme]").forEach((b) => b.addEventListener("click", () => {
-      actuTheme = b.dataset.atheme;
-      app.querySelectorAll("[data-atheme]").forEach((x) => x.setAttribute("aria-pressed", x === b));
-      drawList();
-    }));
+    const goCurtain = (k) => { actuTheme = k; drawList(); };
+    app.querySelectorAll("[data-atheme]").forEach((b) => b.addEventListener("click", () => goCurtain(b.dataset.atheme)));
+    // Glisser l'écran sur le côté pour changer de rideau (pas sur ce qui défile déjà de côté).
+    let sx = null, sy = null;
+    const listBox = app.querySelector("#actu-list");
+    listBox.addEventListener("touchstart", (e) => { if (e.target.closest(".marches-grid, .chips-row")) return; sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    listBox.addEventListener("touchend", (e) => {
+      if (sx == null) return; const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy; sx = null;
+      if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
+      const i = CURTAINS.findIndex((c) => c[0] === actuTheme), j = Math.max(0, Math.min(CURTAINS.length - 1, i + (dx < 0 ? 1 : -1)));
+      if (j !== i) { goCurtain(CURTAINS[j][0]); app.querySelector(".curtains").scrollIntoView({ block: "nearest" }); }
+    }, { passive: true });
     app.querySelectorAll("[data-aregion]").forEach((b) => b.addEventListener("click", () => {
       actuRegion = b.dataset.aregion;
       app.querySelectorAll("[data-aregion]").forEach((x) => x.setAttribute("aria-pressed", x === b));

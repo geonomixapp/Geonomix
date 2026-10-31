@@ -474,7 +474,9 @@
   "jusqu'au": "until",
   "L'actu liée": "Related news",
   "Tout l'agenda": "The full calendar",
-  "Et après ?": "What next?"
+  "Et après ?": "What next?",
+  "Rubriques": "Sections",
+  "{n} pays": "{n} countries"
  },
  "months": {
   "janvier": "Jan.",

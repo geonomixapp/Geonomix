@@ -475,7 +475,9 @@
   "jusqu'au": "bis",
   "L'actu liée": "Die passende Nachricht",
   "Tout l'agenda": "Der ganze Kalender",
-  "Et après ?": "Und danach?"
+  "Et après ?": "Und danach?",
+  "Rubriques": "Rubriken",
+  "{n} pays": "{n} Länder"
  },
  "months": {
   "janvier": "Januar",

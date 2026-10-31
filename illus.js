@@ -161,21 +161,73 @@
       ${T(22, 104, v, { size, weight: 700, serif: true, fill: accent(n) })}${T(24, 132, short(f.label, 44), { size: 12, weight: 500, fill: COL.mute })}`;
   }
 
+  // Graphique en barres (31 oct. 2026, demande de l'auteur : « des graphiques, varie ») : au moins deux chiffres
+  // clés en %, comparés sur une même échelle, barres négatives à gauche du zéro.
+  const pct = (f) => { const m = String(f.value).replace(/[−–]/g, "-").match(/^\s*([+-]?\d+(?:[.,]\d+)?)\s*%/); return m ? num(m[1]) : null; };
+  const pcts = (n) => (n.figures || []).filter((f) => pct(f) != null && !isNaN(pct(f)));
+  function drawBars(n) {
+    const fs = pcts(n).slice(0, 4), max = Math.max(...fs.map((f) => Math.abs(pct(f)))) || 1;
+    const neg = fs.some((f) => pct(f) < 0), x0 = neg ? 120 : 16, right = W - 76;
+    const negW = x0 - 16, posW = right - x0, scale = neg ? Math.min(negW, posW) : posW;
+    const rowH = Math.min(46, (H - 24) / fs.length), bh = Math.max(8, Math.min(14, rowH - 26));
+    return `<rect width="${W}" height="${H}" fill="#121318"/>${neg ? `<line x1="${x0}" y1="14" x2="${x0}" y2="${H - 10}" stroke="${COL.mute}" stroke-opacity=".5"/>` : ""}
+      ${fs.map((f, i) => { const v = pct(f), w = Math.max(3, Math.abs(v) / max * scale), y = 20 + i * rowH;
+        const x = v < 0 ? x0 - w : x0, col = v < 0 ? COL.red : accent(n);
+        return `${T(16, y, short(f.label, 46), { size: 11, weight: 500, fill: COL.mute })}<rect x="${x.toFixed(1)}" y="${y + 6}" width="${w.toFixed(1)}" height="${bh}" rx="3" fill="${col}"/>
+          ${T(W - 14, y + 6 + bh - 2, short(f.value, 10), { anchor: "end", size: 15, weight: 700, serif: true, fill: col })}`; }).join("")}`;
+  }
+  // Anneau : un pourcentage entre 1 et 100 (une part, un taux de remplissage).
+  const share = (n) => (n.figures || []).find((f) => { const v = pct(f); return v != null && v > 0 && v <= 100 && !/^\s*[+-]/.test(String(f.value).replace(/[−–]/g, "-")); });
+  function drawDonut(n) {
+    const f = share(n), v = pct(f), r = 58, cx = 96, cy = H / 2, a = (v / 100) * Math.PI * 2;
+    const ex = cx + r * Math.sin(a), ey = cy - r * Math.cos(a), large = v > 50 ? 1 : 0;
+    return `<rect width="${W}" height="${H}" fill="#121318"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${COL.land}" stroke-width="18"/>
+      ${v >= 99.9 ? `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${accent(n)}" stroke-width="18"/>` : `<path d="M${cx},${cy - r} A${r},${r} 0 ${large} 1 ${ex.toFixed(1)},${ey.toFixed(1)}" fill="none" stroke="${accent(n)}" stroke-width="18" stroke-linecap="round"/>`}
+      ${T(cx, cy + 9, short(f.value, 8), { anchor: "middle", size: 26, weight: 700, serif: true })}
+      ${wrap2(f.label, 24).map((l, i) => T(178, cy - 6 + i * 18, l, { size: 13, weight: 500, fill: COL.mute })).join("")}`;
+  }
+  // Calendrier : la prochaine étape datée (champ next) ou un chiffre clé qui est une date.
+  const MONTH = /janv|févr|mars|avril|mai|juin|juil|août|sept|oct|nov|déc|jan|feb|mar|apr|may|jun|jul|aug|sep|dec|ene|abr|ago|dic/i;
+  const dateFig = (n) => { const x = [].concat(n.next || [])[0]; if (x && x.when) return { value: x.when, label: x.what }; return (n.figures || []).find((f) => MONTH.test(f.value) && /\d/.test(f.value)); };
+  function drawCalendar(n) {
+    const d = dateFig(n), cx = 92, top = 34;
+    const parts = String(d.value).split(/\s+/), big = parts.find((p) => /\d/.test(p)) || parts[0], rest = parts.filter((p) => p !== big).join(" ");
+    return `<rect width="${W}" height="${H}" fill="#121318"/><rect x="${cx - 54}" y="${top}" width="108" height="122" rx="14" fill="#f5f5f7"/>
+      <rect x="${cx - 54}" y="${top}" width="108" height="32" rx="14" fill="${accent(n)}"/><rect x="${cx - 54}" y="${top + 18}" width="108" height="14" fill="${accent(n)}"/>
+      ${T(cx, top + 22, short(rest || "", 12).toUpperCase(), { anchor: "middle", size: 12, weight: 700, fill: "#111" })}
+      ${T(cx, top + 92, short(big, 6), { anchor: "middle", size: fit(short(big, 6), 90, 46), weight: 700, serif: true, fill: "#111" })}
+      ${wrap2(String(d.label || "").replace(/\s*\[\d+\]/g, ""), 22).map((l, i) => T(170, 84 + i * 18, l, { size: 13, weight: 500, fill: COL.mute })).join("")}`;
+  }
+  // Podium : un rang (« 1er », « 11e », « 3rd »).
+  const rankFig = (n) => (n.figures || []).find((f) => /^\s*\d{1,3}\s*(?:er|re|e|ème|st|nd|rd|th|\.º|º)\s*$/i.test(f.value));
+  function drawPodium(n) {
+    const f = rankFig(n), rank = parseInt(f.value, 10), steps = [[2, 70], [1, 100], [3, 50]]; // podium à gauche, le rang à droite
+    return `<rect width="${W}" height="${H}" fill="#121318"/>${steps.map(([r, h], i) => { const x = 18 + i * 50, on = r === rank;
+      return `<rect x="${x}" y="${H - 22 - h}" width="46" height="${h}" rx="6" fill="${on ? accent(n) : COL.land}"/>${T(x + 23, H - 30 - h + h / 2 + 22, String(r), { anchor: "middle", size: 20, weight: 700, serif: true, fill: on ? "#111" : COL.mute })}`; }).join("")}
+      ${T(252, 92, short(f.value, 6), { anchor: "middle", size: 40, weight: 700, serif: true, fill: accent(n) })}
+      ${wrap2(f.label, 20).map((l, i) => T(252, 118 + i * 16, l, { anchor: "middle", size: 11, weight: 500, fill: COL.mute })).join("")}`;
+  }
+
   // ---------- Choix de la forme ----------
   // Formes possibles pour une actu, de la plus parlante à la plus simple.
   function kinds(n) {
     const out = [];
     if (seats(n)) out.push("hemicycle");
     if ((n.geo || []).length >= 2 && n.geo[0].coords && n.geo[1].coords && (Math.abs(n.geo[0].coords[0] - n.geo[1].coords[0]) + Math.abs(n.geo[0].coords[1] - n.geo[1].coords[1])) > 2) out.push("flow");
+    if (pcts(n).length >= 2) out.push("bars");
     if (versus(n) && !seats(n)) out.push("picto");
+    if (rankFig(n)) out.push("podium");
+    if (share(n)) out.push("donut");
+    if (dateFig(n)) out.push("calendar");
     if (shock(n)) out.push("shock");
     out.push("map", "silhouette");
     if (!out.includes("shock") && (n.figures || []).length) out.push("shock");
     return out;
   }
   // La première forme qui n'est pas celle de l'actu d'avant (pour que deux actus voisines ne se ressemblent pas).
-  function pick(n, avoid) { const k = kinds(n); return k.find((x) => x !== avoid) || k[0]; }
-  const DRAW = { hemicycle: drawHemicycle, flow: drawFlow, picto: drawPicto, shock: drawShock, map: drawMap, silhouette: drawSilhouette };
+  // avoid : une forme ou une liste de formes déjà vues juste avant.
+  function pick(n, avoid) { const no = [].concat(avoid || []), k = kinds(n); return k.find((x) => !no.includes(x)) || k[0]; }
+  const DRAW = { bars: drawBars, donut: drawDonut, calendar: drawCalendar, podium: drawPodium, hemicycle: drawHemicycle, flow: drawFlow, picto: drawPicto, shock: drawShock, map: drawMap, silhouette: drawSilhouette };
   // compact : carte étroite (illustration recadrée au centre) : la silhouette du pays, sinon le chiffre seul, centrés.
   function svg(n, kind, compact) {
     let inner = "";
