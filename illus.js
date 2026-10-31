@@ -7,7 +7,7 @@
 (function () {
   "use strict";
   const W = 340, H = 190;
-  const COL = { eco: "#ff8a3d", geo: "#8e8cff", mix: "#66d4cf", land: "#2b2f3c", sea: "#0f1626", text: "#f5f5f7", mute: "#9a9aa3", red: "#ff453a" };
+  const COL = { eco: "#ff8a3d", geo: "#8e8cff", fin: "#34d399", mix: "#66d4cf", land: "#2b2f3c", sea: "#0f1626", text: "#f5f5f7", mute: "#9a9aa3", red: "#ff453a" };
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const accent = (n) => COL[n.theme] || COL.eco;
 

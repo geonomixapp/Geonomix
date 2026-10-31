@@ -44,7 +44,7 @@ if (!todays.length) { console.error(`Aucune actu le ${day}.`); process.exit(1); 
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const strip = (s) => String(s).replace(/\s*\[\d+\]/g, "");
-const THEMES = { eco: "Économie", geo: "Géopolitique", mix: "Éco & Géopo" };
+const THEMES = { eco: "Économie", geo: "Géopolitique", fin: "Finance", mix: "Éco & Géopo" };
 const longDate = new Date(day + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 
 // Les actus : jusqu'à 9, dans l'ordre du fichier (la rédaction met les plus importantes en premier).

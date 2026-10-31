@@ -7,6 +7,8 @@ Elle peut être modifiée librement : la mise à jour automatique relit ce fichi
 
 - **12 à 15 actus** du jour ou de la veille, **économie et géopolitique** (elles sont liées) (demande de l'auteur, 30 oct. 2026 : « mets-en plus, des intéressantes »). Ne pas s'arrêter à 5 ou 6 : si un sujet n'a pas 2 sources sérieuses, en chercher un autre plutôt que de publier moins.
 - **Les grands mouvements aussi, pas seulement les sujets de niche** (demande de l'auteur, 31 oct. 2026) : chaque jour, 3 à 4 actus « larges » qui racontent ce qui secoue un pays ou une région : manifestations et révoltes (en Europe aussi), grèves, crises politiques, gouvernements qui tombent, élections, coups d'État, tensions entre grandes puissances, chocs économiques (krach, crise de la dette, flambée des prix). Même si les grands médias en parlent, on les met, en expliquant le pourquoi (causes, enjeux économiques, ce que ça change).
+- **Le côté finance** (demande de l'auteur, 31 oct. 2026) : chaque jour **2 à 3 actus `theme: "fin"`** (Finance, en vert dans l'appli) sur les entreprises et les marchés : rachats et fusions, entrées en Bourse, résultats qui surprennent, faillites, krachs ou envolées d'une action, d'une Bourse ou d'une monnaie, fonds souverains, matières premières vues côté marchés. Toujours avec le lien à la géopolitique ou à l'économie (pourquoi ça bouge).
+- **Le champ `markets` (« Côté marchés »)** sur toute actu, même éco ou géo, quand des entreprises cotées sont directement touchées. Exemple : un pays découvre un gisement de pétrole ou de gaz → quelles compagnies l'exploitent, ce qu'a fait leur action, ce que ça peut leur rapporter. Les variations de cours viennent d'une source (agence, média financier, jamais de mémoire) ; si on ne trouve pas la variation, on écrit seulement pourquoi l'entreprise est concernée, sans `move`. On explique, on ne conseille jamais d'acheter ou de vendre.
 - **France et Europe aussi** (demande de l'auteur) : chaque jour **2 à 3 actus sur la France** (économie, budget, entreprises, énergie, diplomatie, faits marquants) et **2 à 3 sur le reste de l'Europe** (UE, voisins, Royaume-Uni, Balkans…), en plus du reste du monde.
 - **Partout dans le monde**, pas seulement l'Occident : chaque jour au moins une actu en **Afrique**, une en **Asie**, une en **Amérique latine**, une au **Moyen-Orient** et une en **Europe ou Asie centrale**.
 - **De nouveaux pays sur le globe** : au moins **4 actus sur des pays qui n'ont pas eu d'actu depuis 14 jours** (regarder les `geo` des actus existantes). On cherche « sous la surface du glacier » : ce dont les grands médias français parlent peu.
@@ -58,7 +60,7 @@ Copier une actu existante de `data/news.js` et remplir :
 
 - `id` : `AAAA-MM-JJ-sujet-court`
 - `date` : la date du jour (`AAAA-MM-JJ`)
-- `theme` : `eco`, `geo` ou `mix`
+- `theme` : `eco`, `geo`, `fin` (finance : entreprises, Bourse, marchés) ou `mix` (éco + géo)
 - `region` : `Europe`, `Amériques`, `Moyen-Orient`, `Afrique` ou `Asie`
 - `title` : titre clair, sans jargon
 - `summary` : une ou deux phrases
@@ -69,6 +71,7 @@ Copier une actu existante de `data/news.js` et remplir :
 - `figures` : 2 ou 3 chiffres clés avec `src`
 - `dossiers` : les cours liés (ids de `data/content.js`)
 - `sources` : `{ short, name, url }` (au moins 2)
+- `markets` (facultatif, voir « Le côté finance ») : `{ text: "phrase sourcée (facultatif)", items: [{ name: "TotalEnergies", ticker: "TTE", move: "+3,1 %", why: "Opère le gisement avec 40 % des parts [2] ; l'action a gagné 3,1 % à Paris le jour de l'annonce [3]." }] }` ; une variation (`move`) doit être sourcée dans `why`
 - `verify` (facultatif) : la raison si la source est unique ou fragile (voir « Fiabilité »)
 
 Les nouvelles actus se placent **en haut** du tableau. Le globe de l'accueil affiche les actus de la date la plus récente.

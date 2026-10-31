@@ -229,7 +229,7 @@
     : `Tes épisodes offerts sont écoutés. Tous les épisodes avec <a href="#/abonnement">${offre.name}</a>.`) : "";
   const cases = etudes.cas || [];
   const app = document.getElementById("app");
-  const THEMES = { eco: "Économie", geo: "Géopolitique", mix: "Éco & Géopo" };
+  const THEMES = { eco: "Économie", geo: "Géopolitique", fin: "Finance", mix: "Éco & Géopo" };
 
   // ---------- Progression (dossiers lus), gardée sur l'appareil ----------
   const STORE_KEY = "geoco.read";
@@ -502,7 +502,7 @@
 
   function dossierTiles() {
     return dossiers
-      .filter((d) => homeFilter === "all" || d.theme === homeFilter || d.theme === "mix")
+      .filter((d) => homeFilter === "all" || d.theme === homeFilter || (d.theme === "mix" && homeFilter !== "fin"))
       .map((d) => {
         const f = d.figures[0];
         return `
@@ -620,7 +620,7 @@
         <div class="wrap">
           <p class="eyebrow reveal">Comprendre les enjeux</p>
           <h2 class="title reveal">Cours.</h2>
-          <div class="reveal">${segmented([["all", "Tout"], ["eco", "Économie"], ["geo", "Géopolitique"]], homeFilter, "filter")}</div>
+          <div class="reveal">${segmented([["all", "Tout"], ["eco", "Économie"], ["geo", "Géopolitique"], ["fin", "Finance"]], homeFilter, "filter")}</div>
           <div class="carousel" id="dossier-tiles">${dossierTiles()}</div>
           <p class="reveal" style="margin-top:20px"><a href="#/cours">Tous les cours ›</a></p>
         </div>
@@ -1134,7 +1134,7 @@
       <section class="wrap actu-days">
         <h2 class="title reveal">L'actu.</h2>
         <div class="filters reveal">
-          ${segmented([["all", "Tout"], ["eco", "Économie"], ["geo", "Géopolitique"]], actuTheme, "atheme")}
+          ${segmented([["all", "Tout"], ["eco", "Économie"], ["geo", "Géopolitique"], ["fin", "Finance"]], actuTheme, "atheme")}
           <div class="chips-row" role="group" aria-label="Filtrer par région">
             ${[["all", "Monde"], ...REGIONS.map((r) => [r, r])].map(([k, l]) => `<button class="chip-btn" data-aregion="${k}" aria-pressed="${actuRegion === k}">${l}</button>`).join("")}
           </div>
@@ -1144,7 +1144,7 @@
     `;
     function drawList() {
       const list = news.filter((n) =>
-        (actuTheme === "all" || n.theme === actuTheme || n.theme === "mix") &&
+        (actuTheme === "all" || n.theme === actuTheme || (n.theme === "mix" && actuTheme !== "fin")) &&
         (actuRegion === "all" || n.region === actuRegion));
       const sorted = nearFirst(list), STEP = 24;
       const box = app.querySelector("#actu-list");
@@ -1591,6 +1591,30 @@
       </section>`;
   }
 
+  // « Côté marchés » (demande de l'auteur, 31 oct. 2026 : le côté finance d'une actu) : champ `markets` de
+  // data/news.js { text?, items: [{ name, ticker?, move?, why }] } : les entreprises touchées et ce qu'en dit la Bourse,
+  // sourcé comme le reste. Pour comprendre, jamais un conseil d'achat.
+  function marketsBlock(n) {
+    const m = n.markets;
+    if (!m || !(m.items || []).length) return "";
+    const src = n.sources, dir = (v) => (/^\s*[-−–]/.test(v || "") ? "down" : /^\s*\+/.test(v || "") ? "up" : "");
+    return `
+      <section class="section">
+        <div class="wrap">
+          <p class="eyebrow reveal"><span class="theme-chip fin"><i aria-hidden="true"></i>${I18N.t("Finance")}</span></p>
+          <h2 class="title reveal">${I18N.t("Côté marchés.")}</h2>
+          ${[].concat(m.text || []).map((t) => `<p class="copy reveal">${para(t, src)}</p>`).join("")}
+          <div class="mkt reveal">${m.items.map((x) => `
+            <div class="mkt-row">
+              <div class="mkt-co"><b>${x.name}</b>${x.ticker ? `<small>${x.ticker}</small>` : ""}</div>
+              ${x.move ? `<span class="mkt-move ${dir(x.move)}">${x.move}</span>` : ""}
+              <p>${cite(x.why, src)}</p>
+            </div>`).join("")}</div>
+          <p class="mkt-note reveal">${I18N.t("Pour comprendre, pas un conseil pour acheter ou vendre.")}</p>
+        </div>
+      </section>`;
+  }
+
   function renderNews(id) {
     const n = byId(news, id);
     if (!n) return renderNotFound();
@@ -1626,6 +1650,8 @@
           ${n.why.map((p) => `<p class="copy reveal">${para(p, n.sources)}</p>`).join("")}
         </div>
       </section>
+
+      ${marketsBlock(n)}
 
       ${deepBlock(n)}
 
@@ -2043,7 +2069,7 @@
         <p class="eyebrow reveal">Cours</p>
         <h1 class="title reveal">Comprendre les enjeux.<br><span class="grad eco">En trois minutes.</span></h1>
         <p class="lead reveal">Les mécanismes à connaître pour décrypter l'actu : inflation, droits de douane, routes maritimes, sanctions, dollar… Chaque cours se termine par un quiz.</p>
-        <div class="reveal" style="margin-top:28px">${segmented([["all", "Tout"], ["eco", "Économie"], ["geo", "Géopolitique"]], homeFilter, "filter")}</div>
+        <div class="reveal" style="margin-top:28px">${segmented([["all", "Tout"], ["eco", "Économie"], ["geo", "Géopolitique"], ["fin", "Finance"]], homeFilter, "filter")}</div>
         <div class="carousel" id="dossier-tiles">${dossierTiles()}</div>
       </section>
 

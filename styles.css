@@ -93,6 +93,7 @@ main { outline: none; padding-top: 72px; }
 .grad.eco { background-image: var(--grad-eco); }
 .grad.geo { background-image: var(--grad-geo); }
 .grad.mix { background-image: var(--grad-mix); }
+.grad.fin { background-image: linear-gradient(90deg, #a7f3d0 0%, #34d399 55%, #0ea5a4 100%); }
 
 .hero { padding-top: 72px; padding-bottom: 40px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
@@ -144,6 +145,7 @@ main { outline: none; padding-top: 72px; }
 .eco { --tile-glow: #ff6a3d; }
 .geo { --tile-glow: #5e5ce6; }
 .mix { --tile-glow: #2997ff; }
+.fin { --tile-glow: #10b981; }
 .tile > * { position: relative; z-index: 1; }
 .tile .eyebrow { margin-bottom: 10px; }
 .tile h3 { font-size: 26px; line-height: 1.12; letter-spacing: -.025em; }
@@ -175,6 +177,7 @@ main { outline: none; padding-top: 72px; }
 .dot.eco { background: var(--grad-eco); }
 .dot.geo { background: var(--grad-geo); }
 .dot.mix { background: var(--grad-mix); }
+.dot.fin { background: var(--c-fin); }
 .row .row-main { flex: 1; min-width: 0; }
 .row .row-title { font-size: 17px; font-weight: 500; }
 .row .row-sub { font-size: 14px; color: var(--muted); margin-top: 2px; }
@@ -1281,7 +1284,7 @@ section.flash { animation: partFlash 1.6s ease-out; }
 .intro-demo { margin: 14px 0 0; }
 
 /* ---------- Code couleur des actus : économie (orange), géopolitique (bleu-violet), les deux ---------- */
-:root { --c-eco: #ff8a3d; --c-geo: #7d7bff; }
+:root { --c-eco: #ff8a3d; --c-geo: #7d7bff; --c-fin: #34d399; }
 .theme-chip {
   display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 8px; border-radius: 999px; margin-right: 4px;
   font: 700 11px/1.4 var(--font); letter-spacing: .06em; text-transform: uppercase; vertical-align: 1px; white-space: nowrap;
@@ -1291,11 +1294,15 @@ section.flash { animation: partFlash 1.6s ease-out; }
 .theme-chip.eco i { background: var(--c-eco); box-shadow: 0 0 8px var(--c-eco); }
 .theme-chip.geo { color: #b3b2ff; background: rgba(125,123,255,.15); box-shadow: inset 0 0 0 1px rgba(125,123,255,.5); }
 .theme-chip.geo i { background: var(--c-geo); box-shadow: 0 0 8px var(--c-geo); }
+.theme-chip.fin { color: #8ff0c4; background: rgba(52,211,153,.13); box-shadow: inset 0 0 0 1px rgba(52,211,153,.45); }
+.theme-chip.fin i { background: var(--c-fin); box-shadow: 0 0 8px var(--c-fin); }
 .theme-chip.mix { color: #fff; background: linear-gradient(90deg, rgba(255,138,61,.2), rgba(125,123,255,.2)); box-shadow: inset 0 0 0 1px rgba(200,170,255,.45); }
 .theme-chip.mix i { width: 14px; border-radius: 4px; background: linear-gradient(90deg, var(--c-eco) 50%, var(--c-geo) 50%); }
 /* Liseré coloré à gauche des cartes d'actus, et halo de la couleur du thème. */
-.news-card.eco, .news-card.geo, .news-card.mix { padding-left: 30px; }
-.news-card.eco::after, .news-card.geo::after, .news-card.mix::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; }
+.news-card.eco, .news-card.geo, .news-card.fin, .news-card.mix { padding-left: 30px; }
+.news-card.eco::after, .news-card.geo::after, .news-card.fin::after, .news-card.fin::after { background: linear-gradient(180deg, #a7f3d0, var(--c-fin)); }
+.news-card.fin { --tile-glow: #10b981; box-shadow: inset 0 0 0 1px rgba(52,211,153,.2); }
+.news-card.mix::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; }
 .news-card.eco::after { background: linear-gradient(180deg, #ffb340, var(--c-eco)); }
 .news-card.geo::after { background: linear-gradient(180deg, #64d2ff, var(--c-geo)); }
 .news-card.mix::after { background: linear-gradient(180deg, var(--c-eco) 0 50%, var(--c-geo) 50% 100%); }
@@ -1306,6 +1313,7 @@ section.flash { animation: partFlash 1.6s ease-out; }
 /* Bandeau défilant : le lieu prend la couleur du thème. */
 .tk-item.eco b { color: #ffb27a; }
 .tk-item.geo b { color: #b3b2ff; }
+.tk-item.fin b { color: #8ff0c4; }
 .tk-item.mix b { background: linear-gradient(90deg, #ffb27a, #b3b2ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
 /* ---------- Actu : « Pour aller plus loin » (champ deep) ---------- */
@@ -1428,7 +1436,7 @@ section.flash { animation: partFlash 1.6s ease-out; }
 .mosaic { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; grid-auto-flow: dense; }
 .mosaic .news-card + .news-card { margin-top: 0; }
 .mcard { padding: 0; display: flex; flex-direction: column; min-width: 0; border: 1px solid var(--hairline); }
-.mcard.eco, .mcard.geo, .mcard.mix { padding-left: 0; }
+.mcard.eco, .mcard.geo, .mcard.fin, .mcard.mix { padding-left: 0; }
 .mcard .mc-body { padding: 16px 18px 18px; min-width: 0; }
 .mcard h3 { font-size: 20px; margin-bottom: 6px; }
 .mcard .summary { font-size: 15px; color: var(--muted); margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
@@ -1452,6 +1460,16 @@ section.flash { animation: partFlash 1.6s ease-out; }
 .mc-meta { display: flex; align-items: center; gap: 7px; margin: 0 0 8px; font-size: 13px; color: var(--muted); }
 .mc-dot { width: 9px; height: 9px; border-radius: 50%; flex: none; background: var(--c-eco); }
 .mc-dot.geo { background: var(--c-geo); }
+.mc-dot.fin { background: var(--c-fin); }
 .mc-dot.mix { background: linear-gradient(90deg, var(--c-eco) 50%, var(--c-geo) 50%); }
 .mcard h3 { margin-bottom: 0; }
 .m-big .summary, .m-text .summary { margin-top: 8px; -webkit-line-clamp: 2; }
+
+/* « Côté marchés » sous une actu (thème Finance, demande de l'auteur 31 oct. 2026) */
+.mkt { display: grid; gap: 10px; margin-top: 22px; max-width: 760px; }
+.mkt-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; background: var(--surface); border-radius: 18px; padding: 14px 18px; border-left: 3px solid var(--c-fin); }
+.mkt-co b { font-size: 17px; } .mkt-co small { margin-left: 8px; font: 600 12px var(--font); letter-spacing: .06em; color: var(--muted); }
+.mkt-move { font: 700 16px var(--font); font-variant-numeric: tabular-nums; color: var(--muted); align-self: center; }
+.mkt-move.up { color: #34d399; } .mkt-move.down { color: #ff6b6b; }
+.mkt-row p { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.45; }
+.mkt-note { margin-top: 12px; font-size: 13px; color: var(--muted); }

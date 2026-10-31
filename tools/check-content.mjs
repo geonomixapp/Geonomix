@@ -19,7 +19,7 @@ const dossierIds = new Set(dossiers.map((d) => d.id));
 const cultureIds = new Set(culture.map((c) => c.id));
 const glossaryIds = new Set(glossary.map((g) => g.id));
 const REGIONS = new Set(["Europe", "Amériques", "Moyen-Orient", "Afrique", "Asie"]);
-const THEMES = new Set(["eco", "geo", "mix"]);
+const THEMES = new Set(["eco", "geo", "fin", "mix"]);
 
 // Les [n] du texte doivent pointer vers une source existante.
 function checkCites(where, text, sources) {
@@ -66,6 +66,17 @@ news.forEach((n, i) => {
     texts.forEach((t) => checkCites(w + " (plus loin)", t, n.sources));
     const known = new Set(["context", "sides", "watch", "explainer", "numbers"]);
     Object.keys(d).forEach((k) => { if (!known.has(k)) err(w, `bloc « ${k} » inconnu dans deep`); });
+  }
+  // « Côté marchés » (thème Finance) : chaque ligne sur une entreprise est sourcée, une variation de cours aussi.
+  if (n.markets) {
+    const m = n.markets;
+    if (!Array.isArray(m.items) || !m.items.length) err(w, "markets : items manquant");
+    [].concat(m.text || []).forEach((t) => checkCites(w + " (marchés)", t, n.sources));
+    (m.items || []).forEach((x) => {
+      if (!x.name || !x.why) err(w, "markets : chaque ligne a un name et un why");
+      checkCites(w + " (marchés)", x.why, n.sources);
+      if (x.move && !/\[\d+\]/.test(x.why || "")) err(w, `markets : la variation « ${x.move} » de ${x.name} doit être sourcée dans why`);
+    });
   }
   (n.figures || []).forEach((f) => { if (f.src && !n.sources[f.src - 1]) err(w, `chiffre « ${f.value} » : src ${f.src} inexistante`); });
   (n.dossiers || []).forEach((d) => { if (!dossierIds.has(d)) err(w, `cours inconnu « ${d} »`); });
