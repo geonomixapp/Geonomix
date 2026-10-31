@@ -1,0 +1,180 @@
+<meta charset="utf-8">
+<title>Trois rideaux illustrés</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Planche : la proposition A (trois rideaux Économie / Géopolitique / Finance), en trois rangements illustrés.
+   Chaque rideau s'ouvre sur une carte du monde où ses pays s'allument, puis ses actus avec les illustrations de l'appli
+   (illus.js). Couleurs des thèmes de l'appli sur son noir. */
+:root { --ink: #f5f5f7; --dim: #9a9aa3; --rule: rgba(255,255,255,.12); --pick: #3ddc97; --eco: #ff8a3d; --geo: #7d7bff; --fin: #34d399; --card: #1c1c1e; --sea: #0b1220; --land: #232838; color-scheme: dark; }
+body { background: #000; color: var(--ink); }
+.board { max-width: 1400px; margin: 0 auto; padding-block: 28px 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.board > h1 { font-family: "Times New Roman", Times, serif; font-size: clamp(28px, 4vw, 40px); margin: 0 0 8px; text-wrap: balance; }
+.board > p { color: var(--dim); max-width: 72ch; margin: 0 0 24px; font-size: 16px; line-height: 1.5; }
+.cols { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 28px; align-items: start; }
+.col { min-width: 0; }
+.col-head { padding: 0 2px 12px; border-bottom: 1px solid var(--rule); margin-bottom: 14px; min-height: 128px; }
+.col-head .k { font: 700 12px/1 var(--font); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+.col-head h2 { font-family: "Times New Roman", Times, serif; font-size: 24px; margin: 6px 0 6px; text-wrap: balance; }
+.col-head p { margin: 0; color: var(--dim); font-size: 14px; line-height: 1.45; }
+.col-head .mine { display: inline-block; margin-top: 8px; font: 700 12px var(--font); color: #062b1c; background: var(--pick); padding: 4px 10px; border-radius: 999px; }
+.phone { border: 1px solid var(--rule); border-radius: 30px; height: 800px; overflow: hidden; background: #000; display: flex; flex-direction: column; }
+.top { padding: 16px 14px 0; background: #000; }
+.ph-title { font-family: "Times New Roman", Times, serif; font-size: 30px; margin: 0 2px 10px; }
+.curtains { position: relative; display: flex; border-bottom: 1px solid var(--rule); }
+.curtains button { flex: 1; background: none; border: 0; color: var(--dim); padding: 9px 2px 12px; font: 600 15px var(--font); cursor: pointer; display: inline-flex; justify-content: center; align-items: center; gap: 6px; }
+.curtains button i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); opacity: .5; }
+.curtains button small { font-weight: 500; color: var(--dim); font-size: 12px; }
+.curtains button[aria-selected="true"] { color: var(--ink); }
+.curtains button[aria-selected="true"] i { opacity: 1; box-shadow: 0 0 8px var(--c); }
+.curtains .bar { position: absolute; bottom: -1px; height: 3px; width: calc(100% / 3); left: 0; border-radius: 3px; background: var(--c); transition: transform .35s cubic-bezier(.2,.8,.2,1), background .35s; }
+button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.viewport { flex: 1; overflow: hidden; position: relative; touch-action: pan-y; }
+.slider { display: flex; height: 100%; transition: transform .4s cubic-bezier(.2,.8,.2,1); }
+.slide { flex: 0 0 100%; min-width: 0; overflow-y: auto; padding: 14px 14px 40px; scrollbar-width: none; }
+.slide::-webkit-scrollbar { display: none; }
+@media (prefers-reduced-motion: reduce) { .slider, .curtains .bar { transition: none; } }
+
+/* Couverture du rideau : carte du monde, pays du rideau allumés */
+.cover { position: relative; border-radius: 22px; overflow: hidden; background: var(--sea); border: 1px solid var(--rule); }
+.cover svg { display: block; width: 100%; height: auto; }
+.cover .land { fill: var(--land); stroke: #0b1220; stroke-width: .3; }
+.cover .on { fill: var(--c); fill-opacity: .55; }
+.cover .pt { fill: #fff; }
+.cover .halo { fill: var(--c); opacity: .35; }
+.cover .cap { position: absolute; left: 14px; bottom: 12px; right: 14px; display: flex; justify-content: space-between; align-items: end; text-shadow: 0 1px 8px #000; }
+.cover .cap b { font-family: "Times New Roman", Times, serif; font-size: 24px; color: var(--ink); }
+.cover .cap span { font-size: 13px; color: var(--ink); opacity: .85; }
+@media (prefers-reduced-motion: no-preference) { .cover .halo { animation: pulse 2.4s ease-out infinite; transform-box: fill-box; transform-origin: center; } @keyframes pulse { from { transform: scale(.6); opacity: .6; } to { transform: scale(2.4); opacity: 0; } } }
+.lbl { font: 600 12px var(--font); color: var(--dim); text-transform: uppercase; letter-spacing: .07em; margin: 20px 2px 10px; }
+
+/* Rangement 1 : mosaïque */
+.phone .mosaic { grid-template-columns: 1fr; margin-top: 14px; }
+.phone .m-big { grid-column: auto; }
+.phone .news-card { opacity: 1; transform: none; }
+.phone .mcard h3 { font-size: 18px; }
+.phone .m-big h3 { font-size: 22px; }
+
+/* Rangement 2 : une illustrée + liste à vignettes */
+.une { margin-top: 14px; border-radius: 22px; overflow: hidden; background: var(--card); border: 1px solid var(--rule); }
+.une .il { aspect-ratio: 340/190; background: #0f1626; } .une svg { width: 100%; height: 100%; display: block; }
+.une .b { padding: 14px 16px 16px; }
+.meta { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--dim); margin: 0 0 6px; }
+.meta i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.une h3 { font-family: "Times New Roman", Times, serif; font-size: 23px; line-height: 1.2; margin: 0 0 6px; }
+.une p.s { margin: 0; color: var(--dim); font-size: 15px; line-height: 1.4; }
+.row { display: grid; grid-template-columns: 84px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--rule); align-items: center; }
+.row .th { width: 84px; height: 84px; border-radius: 14px; overflow: hidden; background: #0f1626; border: 1px solid var(--rule); }
+.row .th svg { width: 100%; height: 100%; display: block; }
+.row h4 { margin: 0; font: 600 15px/1.3 var(--font); }
+
+/* Rangement 3 : rangées par région qui défilent */
+.shelf { display: grid; grid-auto-flow: column; grid-auto-columns: 72%; gap: 10px; overflow-x: auto; margin: 0 -14px; padding: 0 14px 4px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.shelf::-webkit-scrollbar { display: none; }
+.poster { scroll-snap-align: start; scroll-margin-left: 14px; border-radius: 18px; overflow: hidden; background: var(--card); border: 1px solid var(--rule); min-width: 0; }
+.poster .il { aspect-ratio: 340/190; background: #0f1626; } .poster svg { width: 100%; height: 100%; display: block; }
+.poster h4 { margin: 0; padding: 10px 12px 12px; font: 600 14px/1.3 var(--font); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.shelf-h { display: flex; justify-content: space-between; align-items: baseline; margin: 20px 2px 10px; }
+.shelf-h b { font-family: "Times New Roman", Times, serif; font-size: 20px; }
+.shelf-h span { font-size: 12px; color: var(--dim); }
+
+/* Finance : mots de la Bourse */
+.words { display: flex; gap: 8px; overflow-x: auto; margin: 12px -14px 0; padding: 0 14px; scrollbar-width: none; }
+.words button { flex: none; background: rgba(52,211,153,.1); color: #8ff0c4; border: 1px solid rgba(52,211,153,.4); border-radius: 999px; padding: 6px 12px; font: 500 13px var(--font); cursor: pointer; }
+.words button[aria-pressed="true"] { background: var(--fin); color: #032015; }
+.word-def { margin-top: 10px; font-size: 14px; line-height: 1.45; background: var(--card); border-radius: 14px; padding: 12px 14px; border-top: 3px solid var(--fin); }
+
+.verdict { margin-top: 36px; border-top: 1px solid var(--rule); padding-top: 20px; max-width: 74ch; font-size: 16px; line-height: 1.55; }
+.verdict h2 { font-family: "Times New Roman", Times, serif; font-size: 26px; margin: 0 0 8px; }
+.verdict p { color: var(--dim); margin: 0 0 10px; } .verdict b { color: var(--ink); }
+</style>
+<div class="board">
+  <h1>Trois rideaux, illustrés</h1>
+  <p>La proposition A : un rideau pour l'Économie, un pour la Géopolitique, un pour la Finance. Ici en trois rangements, avec les illustrations des actus. Chaque rideau s'ouvre sur une carte du monde où ses pays s'allument. Touche les onglets ou fais glisser l'écran sur le côté. Les actus sont celles du 31 octobre ; pour l'exemple, celles sur la Bourse et les banques sont mises en Finance.</p>
+  <div class="cols">
+    <section class="col"><div class="col-head"><span class="k">1</span><h2>Carte puis mosaïque</h2><p>La carte du rideau, puis les actus en mosaïque illustrée : une grande, des hautes, des cartes de côté avec vignette.</p></div><div class="phone" data-v="mosaic"></div></section>
+    <section class="col"><div class="col-head"><span class="k">2</span><h2>La une, puis la liste à vignettes</h2><p>La carte, la grande actu du rideau illustrée, puis les autres en liste, chacune avec sa petite illustration carrée. Le plus rapide à lire.</p><span class="mine">Mon choix</span></div><div class="phone" data-v="list"></div></section>
+    <section class="col"><div class="col-head"><span class="k">3</span><h2>Rangées par région</h2><p>La carte, puis une rangée par région (Europe, Asie, Afrique…) d'affiches illustrées qu'on fait défiler sur le côté, comme une plateforme de films.</p></div><div class="phone" data-v="shelf"></div></section>
+  </div>
+  <section class="verdict">
+    <h2>Ce que j'en pense</h2>
+    <p><b>Je prendrais le 2.</b> La carte dit d'un coup d'œil où se passe l'actu de ce rideau, la une illustrée donne envie, et la liste à vignettes se lit vite, même avec 15 actus par jour.</p>
+    <p><b>Le 1 est le plus beau</b>, mais il est long à parcourir quand il y a beaucoup d'actus. <b>Le 3</b> range bien par région, mais on fait défiler dans deux sens : de rideau en rideau et de rangée en rangée, ce qui peut gêner sur téléphone.</p>
+  </section>
+</div>
+<script src="data/content.js"></script>
+<script src="data/countries.js"></script>
+<script src="data/news.js"></script>
+<script>
+window.GeocoGlobe = { contains(f, x, y) {
+  const polys = f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates;
+  return polys.some((p) => { let inside = false; const r = p[0]; for (let i = 0, j = r.length - 1; i < r.length; j = i++) { const [xi, yi] = r[i], [xj, yj] = r[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside; } return inside; });
+} };
+</script>
+<script src="illus.js"></script>
+<script>
+const day = window.GEOCO.news[0].date;
+const FIN_DEMO = /Bourse|banques/i;
+const NEWS = window.GEOCO.news.filter((n) => n.date === day).map((n) => Object.assign({}, n, { theme: FIN_DEMO.test(n.title) ? "fin" : n.theme }));
+const TERMS = (window.GEOCO.glossary || []).filter((g) => g.cat === "fin");
+const FEATS = window.GEOCO_COUNTRIES.features;
+const ORDER = [["eco", "Économie", "var(--eco)"], ["geo", "Géopolitique", "var(--geo)"], ["fin", "Finance", "var(--fin)"]];
+const of = (t) => NEWS.filter((n) => n.theme === t || (n.theme === "mix" && t !== "fin"));
+const dot = (n) => n.theme === "mix" ? "linear-gradient(90deg,var(--eco) 50%,var(--geo) 50%)" : `var(--${n.theme})`;
+const meta = (n) => `<p class="meta"><i style="background:${dot(n)}"></i>${n.region || ""}${n.verify ? " · ⚠️" : ""}</p>`;
+
+// Carte du monde (équirectangulaire, sans les pôles) : pays des actus du rideau allumés, un point qui pulse par lieu.
+const W = 360, H = 170, X = (lon) => (lon + 180) / 360 * W, Y = (lat) => (78 - lat) / 136 * H;
+const ring = (r) => "M" + r.map(([x, y]) => `${X(x).toFixed(1)},${Y(Math.max(-58, Math.min(78, y))).toFixed(1)}`).join("L") + "Z";
+const pathOf = (f) => (f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates).map((p) => ring(p[0])).join("");
+const LAND = FEATS.filter((f) => f.id !== "010").map((f) => [f, pathOf(f)]);
+function cover(list, label) {
+  const pts = list.flatMap((n) => n.geo || []).map((g) => g.coords);
+  const lit = new Set(LAND.filter(([f]) => pts.some(([x, y]) => GeocoGlobe.contains(f, x, y))).map(([f]) => f.id));
+  const n = list.length;
+  return `<div class="cover"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Carte des pays du rideau ${label}">
+    ${LAND.map(([f, d]) => `<path class="land${lit.has(f.id) ? " on" : ""}" d="${d}"/>`).join("")}
+    ${pts.map(([x, y]) => `<circle class="halo" cx="${X(x)}" cy="${Y(y)}" r="4"/><circle class="pt" cx="${X(x)}" cy="${Y(y)}" r="1.6"/>`).join("")}
+  </svg><div class="cap"><b>${label}</b><span>${n} actu${n > 1 ? "s" : ""} · ${lit.size} pays</span></div></div>`;
+}
+
+function body(v, list) {
+  let prev = null; const kind = (n) => (prev = GeocoIllus.pick(n, prev));
+  if (v === "mosaic") {
+    const S = ["big", "tall", "side", "side", "tall", "side", "tall"];
+    return `<div class="mosaic">${list.map((n, i) => { const s = S[i % S.length], k = kind(n);
+      return `<a class="news-card mcard m-${s} ${n.theme}"><div class="mc-ill">${GeocoIllus.svg(n, k, s === "side")}</div><div class="mc-body">${meta(n)}<h3>${n.title}</h3>${s === "big" ? `<p class="summary">${n.summary}</p>` : ""}</div></a>`; }).join("")}</div>`;
+  }
+  if (v === "list") {
+    const [top, ...rest] = list; if (!top) return "";
+    return `<div class="une"><div class="il">${GeocoIllus.svg(top, kind(top))}</div><div class="b">${meta(top)}<h3>${top.title}</h3><p class="s">${top.summary}</p></div></div>
+      ${rest.map((n) => `<div class="row"><div class="th">${GeocoIllus.svg(n, kind(n), true)}</div><div>${meta(n)}<h4>${n.title}</h4></div></div>`).join("")}`;
+  }
+  const regions = [...new Set(list.map((n) => n.region))];
+  return regions.map((r) => { const l = list.filter((n) => n.region === r);
+    return `<div class="shelf-h"><b>${r}</b><span>${l.length} actu${l.length > 1 ? "s" : ""}</span></div><div class="shelf">${l.map((n) => `<div class="poster"><div class="il">${GeocoIllus.svg(n, kind(n))}</div><h4>${n.title}</h4></div>`).join("")}</div>`; }).join("");
+}
+const words = () => `<p class="lbl">Comprendre les marchés</p><div class="words">${TERMS.map((g) => `<button aria-pressed="false" data-w="${g.id}">${g.term}</button>`).join("")}</div><div class="word-def" hidden></div>`;
+
+document.querySelectorAll(".phone").forEach((ph) => {
+  const v = ph.dataset.v;
+  ph.innerHTML = `<div class="top"><p class="ph-title">L'actu.</p><div class="curtains" role="tablist">
+      ${ORDER.map(([t, l, c], i) => `<button role="tab" style="--c:${c}" aria-selected="${i === 0}" data-i="${i}"><i></i>${l}<small>${of(t).length}</small></button>`).join("")}
+      <span class="bar" style="--c:var(--eco)"></span></div></div>
+    <div class="viewport"><div class="slider">${ORDER.map(([t, l, c]) => `<div class="slide" style="--c:${c}">${cover(of(t), l)}${t === "fin" ? words() : ""}${body(v, of(t))}</div>`).join("")}</div></div>`;
+  const tabs = ph.querySelectorAll(".curtains button"), bar = ph.querySelector(".bar"), slider = ph.querySelector(".slider");
+  let cur = 0;
+  const go = (i) => { cur = i; tabs.forEach((b, k) => b.setAttribute("aria-selected", k === i)); slider.style.transform = `translateX(-${i * 100}%)`; bar.style.transform = `translateX(${i * 100}%)`; bar.style.setProperty("--c", ORDER[i][2]); };
+  tabs.forEach((b) => b.onclick = () => go(+b.dataset.i));
+  // Glisser l'écran sur le côté pour changer de rideau (pas sur une rangée qui défile déjà).
+  let x0 = null, y0 = null;
+  slider.addEventListener("pointerdown", (e) => { if (e.target.closest(".shelf, .words")) return; x0 = e.clientX; y0 = e.clientY; });
+  slider.addEventListener("pointerup", (e) => { if (x0 == null) return; const dx = e.clientX - x0, dy = e.clientY - y0; x0 = null; if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.3) go(Math.max(0, Math.min(2, cur + (dx < 0 ? 1 : -1)))); });
+  const def = ph.querySelector(".word-def");
+  ph.querySelectorAll(".words button").forEach((b) => b.onclick = () => {
+    const on = b.getAttribute("aria-pressed") !== "true", g = TERMS.find((x) => x.id === b.dataset.w);
+    ph.querySelectorAll(".words button").forEach((x) => x.setAttribute("aria-pressed", x === b && on));
+    def.hidden = !on; if (on) def.innerHTML = `<b>${g.term}</b> : ${g.def}${g.example ? `<br><span style="color:#8ff0c4">${g.example}</span>` : ""}`;
+  });
+});
+</script>
