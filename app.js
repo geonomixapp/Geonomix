@@ -878,7 +878,15 @@
 
   // Volet d'actus qui s'ouvre quand on touche un point du globe (accueil et page d'un pays).
   function globeSheet(hero, sheet, onClose) {
+    // Un toucher ailleurs que sur une actu (globe, fond du volet, reste de la page) referme le volet,
+    // pour pouvoir manipuler le globe librement (demande de l'auteur, 31 oct. 2026).
+    const outside = (e) => {
+      if (sheet.hidden || !document.body.contains(sheet)) return document.removeEventListener("click", outside, true);
+      if (e.target.closest(".sheet-item, .globe-pin, .globe-zoom")) return;
+      closeSheet();
+    };
     function closeSheet() {
+      document.removeEventListener("click", outside, true);
       sheet.hidden = true;
       hero.classList.remove("sheet-open");
       if (onClose) onClose();
@@ -901,6 +909,8 @@
       sheet.hidden = false;
       hero.classList.add("sheet-open");
       sheet.querySelector(".sheet-close").addEventListener("click", closeSheet);
+      document.removeEventListener("click", outside, true);
+      setTimeout(() => { if (!sheet.hidden) document.addEventListener("click", outside, true); }, 0);
     }
     return { openSheet, closeSheet };
   }

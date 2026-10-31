@@ -36,11 +36,16 @@
   // pour que les étiquettes ne se chevauchent pas. Chaque actu garde le nom de son lieu.
   // gap : écart minimal (en degrés) entre deux points ; plus petit quand on regarde un seul pays, pour que
   // chaque ville garde son point (Vancouver, Ottawa…).
+  // Pays d'un lieu : la fin de son nom (« Paris, France » → france), sinon le nom entier.
+  const countryKey = (g) => String(g.name || g.label || "").split(",").pop().trim().toLowerCase().replace(/[’']/g, "'");
   function placesFrom(news, gap = 8) {
     const spots = [];
     news.forEach((n) => (n.geo || []).forEach((g) => {
       const [lng, lat] = g.coords;
+      // Jamais deux pays dans le même point (demande de l'auteur : Londres, Bruxelles et Paris chacun le leur).
+      const country = countryKey(g);
       const near = spots.find((p) => {
+        if (p.country !== country) return false;
         const dx = (lng - p.lng) * Math.cos((lat * Math.PI) / 180), dy = lat - p.lat;
         return Math.hypot(dx, dy) < gap;
       });
@@ -50,7 +55,7 @@
         near.items.push(entry);
         if (!near.names.includes(g.name)) { near.names.push(g.name); near.labels.push(short); }
       } else {
-        spots.push({ lng, lat, names: [g.name], labels: [short], items: [entry] });
+        spots.push({ lng, lat, country, names: [g.name], labels: [short], items: [entry] });
       }
     }));
     spots.forEach((p) => {
